@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
+
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity" xdt:Transform="InsertIfMissing">
+
+    <assembly name="Enferno.Public.Web" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+    <namespace name="Enferno.Public.Web" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+
+    <container xdt:Transform="InsertIfMissing">
+      <register type="ISiteRules" mapTo="DefaultSiteRules" xdt:Transform="InsertIfMissing" xdt:Locator="Match(type)">
+        <constructor />
+      </register>
+      <register type="Repositories.IRepository" mapTo="Repositories.Repository" xdt:Transform="InsertIfMissing" xdt:Locator="Match(type)">
+        <lifetime type="singleton" />
+        <constructor />
+      </register>
+    </container>
+  </unity>
+
+
+</configuration>
