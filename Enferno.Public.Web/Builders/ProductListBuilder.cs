@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Enferno.Public.Web.Models;
@@ -78,8 +77,9 @@ namespace Enferno.Public.Web.Builders
             MapVariants(productItemGroup, itemModel);
             MapProductParametrics(itemModel, productItem);
 
-            itemModel.Price = MapMinPrice(productItemGroup);
-            itemModel.Price.IsFromPrice = productItemGroup.Max(v => v.Price) != productItemGroup.Min(v => v.Price);
+            var activeItems = productItemGroup.Where(i => i.StatusId != 5).ToList();
+            itemModel.Price = MapMinPrice(activeItems);
+            itemModel.Price.IsFromPrice = activeItems.Any() && activeItems.Max(v => v.Price) != activeItems.Min(v => v.Price);
 
             itemModel.OnHandStatus = itemModel.Variants.Min(x => x.OnHandStatus);
 
@@ -100,8 +100,9 @@ namespace Enferno.Public.Web.Builders
             allParametrics.RemoveAll(i => variantParametricIds.Contains(i.Id) || parametricIdsOnVariants.Contains(i.Id));
             MapParametrics(itemModel.Parametrics, allParametrics);
 
-            itemModel.Price = MapMinPrice(variants);
-            itemModel.Price.IsFromPrice = variants.Max(v => v.Price?.Value) != variants.Min(v => v.Price?.Value);
+            var activeVariants = variants.Where(i => i.StatusId != 5).ToList();
+            itemModel.Price = MapMinPrice(activeVariants);
+            itemModel.Price.IsFromPrice = activeVariants.Any() && activeVariants.Max(v => v.Price?.Value) != activeVariants.Min(v => v.Price?.Value);
 
             itemModel.OnHandStatus = itemModel.Variants.Min(x => x.OnHandStatus);
 
@@ -109,15 +110,15 @@ namespace Enferno.Public.Web.Builders
         }
 
 
-        private static PriceModel MapMinPrice(IGrouping<string, ProductItem> productItemGroup)
-        {
-            var productItem = productItemGroup.First(g => g.Price == productItemGroup.Min(v => v.Price));
+        private static PriceModel MapMinPrice(IList<ProductItem> productItemGroup)
+        {            
+            var productItem = productItemGroup.Any() ? productItemGroup.FirstOrDefault(g => g.Price == productItemGroup.Min(v => v.Price)) : null;
             return MapPrice(productItem);
         }
 
         private static PriceModel MapMinPrice(List<VariantItem> variants)
-        {
-            var variant = variants.FirstOrDefault(g => g.Price?.Value == variants.Min(v => v.Price?.Value));
+        {            
+            var variant = variants.Any() ? variants.FirstOrDefault(g => g.Price?.Value == variants.Min(v => v.Price.Value)) : null;
             return MapPrice(variant?.Price);
         }
 
@@ -126,12 +127,18 @@ namespace Enferno.Public.Web.Builders
             foreach (var variant in variants)
             {
                 var variantModel = Mapper.Map<ProductItem, VariantModel>(variant);
-                variantModel.Files.RemoveAll(f => itemModel.Files.Select(x => x.Url).Contains(f.Url) && f.Type != (int)ProductFileType.VariantImage);
+                //variantModel.Files.RemoveAll(f => itemModel.Files.Select(x => x.Url).Contains(f.Url) && f.Type != (int)ProductFileType.VariantImage);
 
                 MapVariantParametrics(variant, variantModel.VariantParametrics);
                 MapParametrics(variant, variantModel.Parametrics);
                 
                 itemModel.Variants.Add(variantModel);
+            }
+
+            itemModel.Files.RemoveAll(f => f.Type != (int)ProductFileType.DefaultImage && !itemModel.Variants.All(v => v.Files.Exists(vf => vf.Url == f.Url)));
+            foreach (var variantModel in itemModel.Variants)
+            {
+               variantModel.Files.RemoveAll(f => itemModel.Files.Select(x => x.Url).Contains(f.Url) && f.Type != (int)ProductFileType.VariantImage);
             }
         }
 
@@ -164,8 +171,7 @@ namespace Enferno.Public.Web.Builders
         {
             foreach (var group in itemModel.Variants.SelectMany(x => x.Parametrics).ToList().GroupBy(x => x.Id))
             {
-                var allVariantsHaveTheParametric =
-                    itemModel.Variants.All(x => x.Parametrics.SingleOrDefault(y => y.Id == @group.Key) != null);
+                var allVariantsHaveTheParametric = itemModel.Variants.All(x => x.Parametrics.SingleOrDefault(y => y.Id == @group.Key) != null);
                 if (!allVariantsHaveTheParametric)
                     continue;
 

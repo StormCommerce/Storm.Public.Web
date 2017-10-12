@@ -63,6 +63,8 @@ namespace Enferno.Public.Web.Builders
 
         protected static PriceModel MapPrice(ProductItem product)
         {
+            if (product == null) return new PriceModel();
+
             return new PriceModel
             {
                 Display = PriceCalulator.Price(product.Price, product.VatRate),
