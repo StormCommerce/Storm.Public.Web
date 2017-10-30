@@ -51,7 +51,7 @@ namespace Enferno.Public.Web.Test.Builders
                 {
                     new FilterItem {Code = "Bob", Count = 1, Id = "11", Value = "6" },
                     new FilterMultiItem {Id = "111", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, Items = new FilterItemList {new FilterItem {Id = "37", Count = 1}}},
-                    new FilterListItem {Id = "112", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, Items = new FilterItemList {new FilterItem {Id = "38", Count = 2}}},
+                    new FilterListItem {Id = "112", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, Items = new FilterItemList {new FilterItem {Id = "48", Count = 2}}},
                     new FilterBoolItem {Id = "113", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, Count = 1, FalseCount = 2},
                     new FilterRangeItem {Id = "114", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, From = "10", To = "20", Type = "ParametricValueType.Integer", Uom = "2"},
                     new FilterRangeItem {Id = "115", Name = "Bob", Description = "Dobalina", ImageKey = Guid.Empty, From = "1.5", To = "4.5", Type = "ParametricValueType.Decimal", Uom = "2"},
@@ -73,8 +73,9 @@ namespace Enferno.Public.Web.Test.Builders
             applicationDictionary.Stub(x => x.ParametricInfo(114, "sv")).Return(new ParametricInfo { Id = 114, Type = ParametricType.MultiValue, ValueType = ParametricValueType.Integer });
             applicationDictionary.Stub(x => x.ParametricInfo(115, "sv")).Return(new ParametricInfo { Id = 115, Type = ParametricType.ListValue, ValueType = ParametricValueType.Decimal });
             applicationDictionary.Stub(x => x.ParametricInfo(116, "sv")).Return(new ParametricInfo { Id = 116, Type = ParametricType.ListValue, ValueType = ParametricValueType.Date });
+
             applicationDictionary.Stub(x => x.ParametricValue(ParametricType.MultiValue, 37, "sv")).Return(new ParametricValue { Id = 37, Name = "Valuee", Description = "Desc", Code = "Coode", SortOrder = 1, Type = ParametricType.MultiValue.ToString() });
-            applicationDictionary.Stub(x => x.ParametricValue(ParametricType.ListValue, 38, "sv")).Return(new ParametricValue { Id = 38, Name = "Valuee", Description = "Desc", Code = "Coode", SortOrder = 1, Type = ParametricType.ListValue.ToString() });
+            applicationDictionary.Stub(x => x.ParametricValue(ParametricType.ListValue, 48, "sv")).Return(new ParametricValue { Id = 48, Name = "Valuee", Description = "Desc", Code = "Coode", SortOrder = 1, Type = ParametricType.ListValue.ToString() });
 
             applicationDictionary.Stub(x => x.ManufacturerItem(1, "sv")).Return(new ManufacturerItem { Id = 1, Name = "Mfr1" });
             applicationDictionary.Stub(x => x.ManufacturerItem(2, "sv")).Return(new ManufacturerItem { Id = 2, Name = "Mfr2" });
@@ -101,6 +102,99 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(113, result[6].Id);
             Assert.AreEqual(114, result[7].Id);
             Assert.AreEqual(115, result[8].Id);
+        }
+
+        [TestMethod]
+        public void BuildFiltersWhenListHasOneWithCountEqualsItemCountTest()
+        {
+            // Arrange
+            var rules = MockRepository.GenerateMock<ISiteRules>();
+
+            var filterList = new FilterList
+            {
+                new Filter {Name = "flgf", Items = new FilterItemList {new FilterItem {Code = "Flag1", Count = 1, Id = "3", Value = "1" },new FilterItem {Code = "Flag2", Count = 2, Id = "3", Value = "2" }}},
+            };
+
+            var stormContext = MockRepository.GenerateMock<IStormContext>();
+            stormContext.Stub(x => x.Configuration).Return(new StormConfigurationSection());
+            stormContext.Stub(x => x.ShowPricesIncVat).Return(true);
+            stormContext.Stub(x => x.CultureCode).Return("sv");
+            StormContext.SetInstance(stormContext);
+
+            var applicationDictionary = MockRepository.GenerateMock<IApplicationDictionary>();
+
+            // Act
+            var filterBuilder = new FilterBuilder(applicationDictionary, rules);
+            filterBuilder.ItemCount = 2;
+            var result = filterBuilder.BuildFilters(filterList).ToList();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count);          
+        }
+
+        [TestMethod]
+        public void BuildFiltersWhenListHasAllWithCountEqualsItemCountTest()
+        {
+            // Arrange
+            var rules = MockRepository.GenerateMock<ISiteRules>();
+
+            var filterList = new FilterList
+            {
+                new Filter {Name = "flgf", Items = new FilterItemList {new FilterItem {Code = "Flag1", Count = 2, Id = "3", Value = "1" },new FilterItem {Code = "Flag2", Count = 2, Id = "3", Value = "2" }}},
+            };
+
+            var stormContext = MockRepository.GenerateMock<IStormContext>();
+            stormContext.Stub(x => x.Configuration).Return(new StormConfigurationSection());
+            stormContext.Stub(x => x.ShowPricesIncVat).Return(true);
+            stormContext.Stub(x => x.CultureCode).Return("sv");
+            StormContext.SetInstance(stormContext);
+
+            var applicationDictionary = MockRepository.GenerateMock<IApplicationDictionary>();
+
+            // Act
+            var filterBuilder = new FilterBuilder(applicationDictionary, rules);
+            filterBuilder.ItemCount = 2;
+            var result = filterBuilder.BuildFilters(filterList).ToList();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
+        }
+
+        [TestMethod]
+        public void BuildFiltersWhenListHasMixedWithCountEqualsItemCountTest()
+        {
+            // Arrange
+            var rules = MockRepository.GenerateMock<ISiteRules>();
+
+            var filterList = new FilterList
+            {
+                new Filter {Name = "flgf", Items = new FilterItemList
+                {
+                    new FilterItem {Code = "Flag0", Count = 0, Id = "3", Value = "0" },
+                    new FilterItem {Code = "Flag1", Count = 1, Id = "3", Value = "1" },
+                    new FilterItem {Code = "Flag2", Count = 2, Id = "3", Value = "2" }
+                }},
+            };
+
+            var stormContext = MockRepository.GenerateMock<IStormContext>();
+            stormContext.Stub(x => x.Configuration).Return(new StormConfigurationSection());
+            stormContext.Stub(x => x.ShowPricesIncVat).Return(true);
+            stormContext.Stub(x => x.CultureCode).Return("sv");
+            StormContext.SetInstance(stormContext);
+
+            var applicationDictionary = MockRepository.GenerateMock<IApplicationDictionary>();
+
+            // Act
+            var filterBuilder = new FilterBuilder(applicationDictionary, rules);
+            filterBuilder.ItemCount = 2;
+            var result = filterBuilder.BuildFilters(filterList).ToList();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(1, result[0].Values.Count);
         }
     }
 }

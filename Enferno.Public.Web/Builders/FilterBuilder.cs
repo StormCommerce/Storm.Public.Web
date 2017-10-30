@@ -46,6 +46,7 @@ namespace Enferno.Public.Web.Builders
             AddPriceValue(list.Find(i => i.Name == "prcf"));
             AddParametrics(list.Find(i => i.Name == "parf"));
 
+            filters.ForEach(f => f.Values.RemoveAll(v => !v.HasValidCount(ItemCount)));
             filters.RemoveAll(f => !f.HasValidCount(ItemCount));
             return filters;
         }
