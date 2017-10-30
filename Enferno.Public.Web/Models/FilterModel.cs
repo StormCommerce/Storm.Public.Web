@@ -45,6 +45,7 @@ namespace Enferno.Public.Web.Models
 
         public List<FilterValueModel> Values { get; set; }
 
+        [Obsolete("Use hasInvalidCount instead. This one does not take total items inot account.")]
         public bool IsValid
         {
             get
@@ -53,6 +54,13 @@ namespace Enferno.Public.Web.Models
                     Values.Count > 1 && Values.TrueForAll(v => v.IsValid):
                     Values.Count == 1 && Values[0].IsValid;
             }            
+        }
+
+        public bool HasValidCount(int? itemCount)
+        {
+            return Type == FilterType.List ?
+                Values.Count > (itemCount.HasValue ? 0 : 1) && Values.TrueForAll(v => v.HasValidCount(itemCount)) :
+                Values.Count == 1 && Values[0].IsValid;
         }
 
         public string GetFilterName()

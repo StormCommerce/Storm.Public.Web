@@ -23,7 +23,6 @@ namespace Enferno.Public.Web.Test.Builders
             var rules = MockRepository.GenerateMock<ISiteRules>();
             IoC.RegisterInstance(typeof(ISiteRules), rules);
             Mapper.Initialize(cfg => cfg.AddProfile<ProductProfile>());
-//            Mapper.AddProfile<ProductProfile>();
         }
 
         [TestMethod, TestCategory("UnitTest")]

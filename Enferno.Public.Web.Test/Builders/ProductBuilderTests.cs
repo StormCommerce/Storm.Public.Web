@@ -21,7 +21,7 @@ namespace Enferno.Public.Web.Test.Builders
         {
             var rules = MockRepository.GenerateMock<ISiteRules>();
             IoC.RegisterInstance(typeof (ISiteRules), rules);
-            Mapper.AddProfile<ProductProfile>();
+            Mapper.Initialize(cfg => cfg.AddProfile<ProductProfile>());
         }
 
         [TestMethod]

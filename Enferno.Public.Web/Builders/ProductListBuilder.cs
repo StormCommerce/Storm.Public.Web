@@ -54,6 +54,7 @@ namespace Enferno.Public.Web.Builders
             if (filters != null && filters.Count > 0)
             {
                 var filterBuilder = new FilterBuilder(dictionary, SiteRules);
+                filterBuilder.ItemCount = productList.ItemCount;
                 model.Filters.AddRange(filterBuilder.BuildFilters(filters));
             }
 

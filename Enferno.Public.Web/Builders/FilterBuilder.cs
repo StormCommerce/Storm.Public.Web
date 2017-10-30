@@ -29,6 +29,8 @@ namespace Enferno.Public.Web.Builders
             dictionary = ApplicationDictionary.Instance;
         }
 
+        public int? ItemCount { get; set; }
+
         public IEnumerable<FilterModel> BuildFilters(FilterList list)
         {
             filters.Add(new FilterModel((int)FilterCategory.Category, FilterType.List, ParametricValueType.Integer));
@@ -44,7 +46,7 @@ namespace Enferno.Public.Web.Builders
             AddPriceValue(list.Find(i => i.Name == "prcf"));
             AddParametrics(list.Find(i => i.Name == "parf"));
 
-            filters.RemoveAll(f => !f.IsValid);
+            filters.RemoveAll(f => !f.HasValidCount(ItemCount));
             return filters;
         }
 

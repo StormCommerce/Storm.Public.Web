@@ -19,6 +19,8 @@ namespace Enferno.Public.Web.Models
         public int SortOrder { get; set; }
 
         public abstract bool IsValid { get; }
+
+        public abstract  bool HasValidCount(int? itemCount);
     }
 
     [Serializable]
@@ -46,6 +48,11 @@ namespace Enferno.Public.Web.Models
         public T Value { get; set; }
 
         public override bool IsValid => Count > 0;
+
+        public override bool HasValidCount(int? itemCount)
+        {
+            return IsValid && Count < itemCount.GetValueOrDefault(int.MaxValue);
+        }
     }
 
     [Serializable]
@@ -84,5 +91,10 @@ namespace Enferno.Public.Web.Models
         }
 
         public override bool IsValid => From.CompareTo(To) < 0;
+
+        public override bool HasValidCount(int? itemCount)
+        {
+            return IsValid;
+        }
     }
 }
