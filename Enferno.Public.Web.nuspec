@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Enferno.Public.Web</id>
-    <version>1.6.0.8</version>
+    <version>1.6.0.9</version>
     <title>Enferno.Public.Web</title>
     <authors>Enferno AB</authors>
     <owners>Enferno AB</owners>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Enferno Web helpers.</description>
     <releaseNotes>
-      Minor fix. Closed ProductItems are not included in the calculation of base product's price. Additional images are now correct with regard to variant specifics.
+      Minor fix. The FilterBuilder now takes total ItemCount into account when excluding items. FilterItems with Count = 0 will be excluded and so will items with Count = ItemCount. Previously List items with Count = 1 would be excluded even if ItemCount was greater than 1.
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Enferno Public Web</tags>
