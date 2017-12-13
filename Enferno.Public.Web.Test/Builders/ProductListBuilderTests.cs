@@ -26,7 +26,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductListWithNullList()
+        public void BuildProductListWithNullListTest()
         {
             // Arrange
             var rules = MockRepository.GenerateMock<ISiteRules>();
@@ -41,7 +41,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductListWithEmptyList()
+        public void BuildProductListWithEmptyListTest()
         {
             // Arrange
             var rules = MockRepository.GenerateMock<ISiteRules>();
@@ -61,7 +61,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductList03()
+        public void BuildProductList03Test()
         {
             // Arrange
             var rules = MockRepository.GenerateMock<ISiteRules>();
@@ -95,7 +95,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductList04()
+        public void BuildProductList04Test()
         {
             // Arrange
             var rules = MockRepository.GenerateMock<ISiteRules>();
@@ -163,7 +163,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductListProductParametersThatHaveDifferingValuesAmongVariantsShouldBeMovedToVariants()
+        public void BuildProductListProductParametersThatHaveDifferingValuesAmongVariantsShouldBeMovedToVariantsTest()
         {
             // Arrange
             var rules = MockRepository.GenerateMock<ISiteRules>();
@@ -263,7 +263,7 @@ namespace Enferno.Public.Web.Test.Builders
         }
 
         [TestMethod, TestCategory("UnitTest")]
-        public void BuildProductListFromVariantItems()
+        public void BuildProductListFromVariantItemsTest()
         {
             // Arrange
             var rules = new DefaultSiteRules();
@@ -376,6 +376,63 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(2, variant1.VariantParametrics.Count, "VariantParametrics");
             Assert.AreEqual(1, variant1.Flags.Count);
             Assert.AreEqual(2, variant1.Files.Count);
+        }
+
+        [TestMethod, TestCategory("UnitTest")]
+        public void BuildProductListFromVariantItemsPriceTest()
+        {
+            // Arrange
+            var rules = new DefaultSiteRules();
+
+            var productList = new ProductItemPagedList
+            {
+                ItemCount = 3,
+                Items = new ProductItemList
+                {
+                    new ProductItem { Id = 1, GroupByKey = "v1", Name = "P1", },
+                    new ProductItem { Id = 2, GroupByKey = "v2", Name = "P2", },
+                    new ProductItem { Id = 3, GroupByKey = "v3", Name = "P3", },
+                }
+            };
+
+            var variantList = new VariantItemList
+            {
+                new VariantItem
+                {
+                    Id = 1, GroupByKey = "v1", Name = "P1", Price = new ProductPrice { Value = 1.00M, Catalog = 1.00M, VatRate = 1.25M, PriceListId = 1 },
+                    OnHand = new OnHand {  Value = 3, IsActive = true },
+                },
+                new VariantItem
+                {
+                    Id = 2, GroupByKey = "v2", Name = "P2", Price = new ProductPrice { Value = 2.00M, Catalog = 2.00M, VatRate = 1.25M, PriceListId = 2 },
+                    OnHand = new OnHand {  Value = 3, IsActive = true },
+                },
+                new VariantItem
+                {
+                    Id = 3, GroupByKey = "v3", Name = "P3", Price = new ProductPrice { Value = 3.00M, Catalog = 3.00M, VatRate = 1.25M, PriceListId = 3 },
+                    OnHand = new OnHand {  Value = 3, IsActive = true },
+                },
+            };
+
+
+            var stormContext = MockRepository.GenerateMock<IStormContext>();
+            stormContext.Stub(x => x.Configuration).Return(new StormConfigurationSection());
+            stormContext.Stub(x => x.ShowPricesIncVat).Return(false);
+            stormContext.Stub(x => x.CultureCode).Return("sv");
+            StormContext.SetInstance(stormContext);
+
+            var dictionary = MockRepository.GenerateMock<IApplicationDictionary>();
+
+            // Act
+            var productBuilder = new ProductListBuilder(dictionary, rules);
+            var result = productBuilder.BuildProductList(productList, variantList);
+
+            // Assert
+            Assert.AreNotEqual(null, result);
+            Assert.AreEqual(3, result.ItemCount);
+            Assert.AreEqual(1M, result.Items[0].Price.Display);
+            Assert.AreEqual(2M, result.Items[1].Price.Display);
+            Assert.AreEqual(3M, result.Items[2].Price.Display);
         }
 
         [TestMethod, TestCategory("UnitTest")]
