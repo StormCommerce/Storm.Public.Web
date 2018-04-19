@@ -10,7 +10,7 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
         protected override void Configure()
         {
             var siteRules = IoC.Resolve<ISiteRules>();
-            Mapper.CreateMap<StormApiClient.Shopping.Basket, BasketModel>()
+            Mapper.CreateMap<StormApiClient.Shopping.Basket, BasketModel>()               
                 .ForMember(basketModel => basketModel.Promotions,
                     basketConfig => basketConfig.ResolveUsing<PromotionModelsResolver>())
                 .ForMember(basketModel => basketModel.OnHand,

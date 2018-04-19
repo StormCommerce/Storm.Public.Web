@@ -13,6 +13,7 @@ namespace Enferno.Public.Web.ViewModels
         public bool IsPrimary { get; set; }
         public int GroupId { get; set; }
         public string Group { get; set; }
+        public string Code { get; set; }
         public List<ParametricValueViewModel> Values { get; set; }
     }
 }

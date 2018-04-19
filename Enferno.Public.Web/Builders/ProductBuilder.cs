@@ -209,6 +209,7 @@ namespace Enferno.Public.Web.Builders
                 GroupId = p.GroupId,
                 Group = p.GroupName,
                 ValueType = pi.ValueType,
+                Code = pi.Code,
                 Values = new List<ParametricValueModel>()
             };
             return parametric;

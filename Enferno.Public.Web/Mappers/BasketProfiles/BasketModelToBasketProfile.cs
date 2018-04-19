@@ -23,6 +23,7 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                 .ForMember(basket => basket.ExtensionData, expr => expr.Ignore())
                 .ForMember(basket => basket.IpAddress, expr => expr.Ignore())
                 .ForMember(basket => basket.AttestedBy, expr => expr.Ignore())
+                .ForMember(basket => basket.TypeId, opts => opts.Ignore())
 
                 .ForMember(basket => basket.AppliedPromotions, expr => expr.ResolveUsing<PromotionsResolver>())
                 .ForMember(basket => basket.Items, expr => expr.ResolveUsing<BasketItemsResolver>());

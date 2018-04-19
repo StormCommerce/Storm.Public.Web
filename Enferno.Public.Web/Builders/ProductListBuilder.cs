@@ -288,6 +288,7 @@ namespace Enferno.Public.Web.Builders
                             Description = pi.Description,
                             Uom = pi.Uom,
                             ValueType = pi.ValueType,
+                            Code = pi.Code,
                             Values = new List<ParametricValueModel> { value }
                         };
                         parametrics.Add(parametricModel);
@@ -308,6 +309,7 @@ namespace Enferno.Public.Web.Builders
                             Description = pi.Description,
                             Uom = pi.Uom,
                             ValueType = pi.ValueType,
+                            Code = pi.Code,
                             Values = new List<ParametricValueModel> { new ParametricValueModel { Value = p.Value } }
                         };
                         parametrics.Add(parametricModel);

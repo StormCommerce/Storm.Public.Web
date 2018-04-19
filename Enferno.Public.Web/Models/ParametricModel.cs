@@ -11,11 +11,14 @@ namespace Enferno.Public.Web.Models
     {
         public bool Equals(ParametricModel other)
         {
-            var retval = Id == other.Id && string.Equals(Name, other.Name) && string.Equals(Description, other.Description) &&
+            if (other == null) return false;
+
+            var allAreEqual = Id == other.Id && string.Equals(Name, other.Name) && string.Equals(Description, other.Description) &&
                    string.Equals(Uom, other.Uom) && IsPrimary.Equals(other.IsPrimary) && GroupId == other.GroupId &&
-                   string.Equals(Group, other.Group) && ValueType == other.ValueType;
-            if (!retval)
-                return false;
+                   string.Equals(Group, other.Group) && ValueType == other.ValueType && string.Equals(Code, other.Code);
+
+            if (!allAreEqual) return false;
+
             return (ReferenceEquals(Values, other.Values) || (Values != null && other.Values != null && Values.SequenceEqual(other.Values)));
         }
 
@@ -54,6 +57,8 @@ namespace Enferno.Public.Web.Models
         /// Can be used to group parametrics for display. Not used in ProductItemModels.
         /// </summary>
         public string Group { get; set; }
+
+        public string Code { get; set; }
 
         public ParametricValueType ValueType { get; set; }
 

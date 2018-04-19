@@ -40,6 +40,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .ForMember(to => to.Flags, opts => opts.Ignore())
                 .ForMember(to => to.UseInvoiceAddressAsDeliveryAddress, opts => opts.Ignore())
                 .ForMember(to => to.Info, opts => opts.Ignore())
+                .ForMember(to => to.PricelistIds, opts => opts.Ignore())
                 .ForMember(to => to.ExtensionData, opts => opts.Ignore());
 
             Mapper.CreateMap<Customer, CustomerModel>()
