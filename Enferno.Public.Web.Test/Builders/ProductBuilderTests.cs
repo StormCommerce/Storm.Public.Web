@@ -1,8 +1,6 @@
 ﻿using System;
-using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Builders;
-using Enferno.Public.Web.Mappers.ProductProfiles;
 using Enferno.StormApiClient.Expose;
 using Enferno.StormApiClient.ExposeProxy;
 using Enferno.StormApiClient.Products;
@@ -21,10 +19,9 @@ namespace Enferno.Public.Web.Test.Builders
         {
             var rules = MockRepository.GenerateMock<ISiteRules>();
             IoC.RegisterInstance(typeof (ISiteRules), rules);
-            Mapper.Initialize(cfg => cfg.AddProfile<ProductProfile>());
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildProductModelTest01()
         {
             // Arrange
@@ -38,7 +35,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(null, result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildProductModelTest02()
         {
             // Arrange
@@ -70,7 +67,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual("MockCategory", result.Category.Name);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildProductModelTest03()
         {
             // Arrange

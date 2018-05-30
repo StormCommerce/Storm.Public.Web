@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ProductModelToProductViewModelProfile : Profile
     {
-        protected override void Configure()
+        public ProductModelToProductViewModelProfile()
         {
-            Mapper.CreateMap<ProductModel, ProductViewModel>()
+            CreateMap<ProductModel, ProductViewModel>()
                 .ForMember(to=> to.OnHandStatusText1, opts=> opts.MapFrom(from=> from.OnHandStatus.Text1))
                 .ForMember(to => to.OnHandStatusText2, opts => opts.MapFrom(from => from.OnHandStatus.Text2))
                 .ForMember(to => to.OnHandStatus, opts => opts.MapFrom(from => from.OnHandStatus.Status))

@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using AutoMapper;
+using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Products;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public class ProductItemFlagsResolver : ValueResolver<ProductItem, IEnumerable<int>>
+    public class ProductItemFlagsResolver : IValueResolver<ProductItem, ProductItemModel, List<int>>
     {
-        protected override IEnumerable<int> ResolveCore(ProductItem productItem)
+        public List<int> Resolve(ProductItem source, ProductItemModel destination, List<int> destMember, ResolutionContext context)
         {
             var flagList = new List<int>();
 
-            if (string.IsNullOrWhiteSpace(productItem.FlagIdSeed)) return flagList;
+            if (string.IsNullOrWhiteSpace(source.FlagIdSeed)) return flagList;
 
-            
-
-            foreach (var flag in productItem.FlagIdSeed.Split(','))
+            foreach (var flag in source.FlagIdSeed.Split(','))
             {
                 int id;
                 if (int.TryParse(flag.Trim(), out id) && !flagList.Contains(id)) flagList.Add(id);
@@ -24,17 +24,15 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class ProductItemVariantFlagsResolver : ValueResolver<ProductItem, IEnumerable<int>>
+    public class ProductItemVariantFlagsResolver<TDest> : IValueResolver<ProductItem, TDest, List<int>>
     {
-        protected override IEnumerable<int> ResolveCore(ProductItem productItem)
+        public List<int> Resolve(ProductItem source, TDest destination, List<int> destMember, ResolutionContext context)
         {
             var flagList = new List<int>();
 
-            if (string.IsNullOrWhiteSpace(productItem.VariantFlagIdSeed)) return flagList;
+            if (string.IsNullOrWhiteSpace(source.VariantFlagIdSeed)) return flagList;
 
-
-
-            foreach (var flag in productItem.VariantFlagIdSeed.Split(','))
+            foreach (var flag in source.VariantFlagIdSeed.Split(','))
             {
                 int id;
                 if (int.TryParse(flag.Trim(), out id) && !flagList.Contains(id)) flagList.Add(id);
@@ -44,17 +42,15 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class VariantItemVariantFlagsResolver : ValueResolver<VariantItem, IEnumerable<int>>
+    public class VariantItemVariantFlagsResolver : IValueResolver<VariantItem, VariantModel, List<int>>
     {
-        protected override IEnumerable<int> ResolveCore(VariantItem variantItem)
+        public List<int> Resolve(VariantItem source, VariantModel destination, List<int> destMember, ResolutionContext context)
         {
             var flagList = new List<int>();
 
-            if (string.IsNullOrWhiteSpace(variantItem.FlagIdSeed)) return flagList;
+            if (string.IsNullOrWhiteSpace(source.FlagIdSeed)) return flagList;
 
-
-
-            foreach (var flag in variantItem.FlagIdSeed.Split(','))
+            foreach (var flag in source.FlagIdSeed.Split(','))
             {
                 int id;
                 if (int.TryParse(flag.Trim(), out id) && !flagList.Contains(id)) flagList.Add(id);
@@ -64,17 +60,15 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class ProductFlagsResolver : ValueResolver<Product, IEnumerable<int>>
+    public class ProductFlagsResolver<TDest> : IValueResolver<Product, TDest, List<int>>
     {
-        protected override IEnumerable<int> ResolveCore(Product product)
+        public List<int> Resolve(Product source, TDest destination, List<int> destMember, ResolutionContext context)
         {
             var flagList = new List<int>();
 
-            if (string.IsNullOrWhiteSpace(product.FlagIdSeed)) return flagList;
+            if (string.IsNullOrWhiteSpace(source.FlagIdSeed)) return flagList;
 
-
-
-            foreach (var flag in product.FlagIdSeed.Split(','))
+            foreach (var flag in source.FlagIdSeed.Split(','))
             {
                 int id;
                 if (int.TryParse(flag.Trim(), out id) && !flagList.Contains(id)) flagList.Add(id);

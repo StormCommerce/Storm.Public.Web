@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Models;
@@ -12,20 +8,20 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
 {
     public class PaymentResponseProfile: Profile
     {
-        protected override void Configure()
+        public PaymentResponseProfile()
         {
             var siteRules = IoC.Resolve<ISiteRules>();
 
-            Mapper.CreateMap<PaymentResponse, PaymentResponseModel>()
+            CreateMap<PaymentResponse, PaymentResponseModel>()
                 .ForMember(to => to.Status, opts => opts.ResolveUsing<PaymentStatusResolver>())
                 .ForMember(to => to.SuccessUrl, opts => opts.UseValue(siteRules.GetPaymentSuccessUrl()))
                 .ForMember(to => to.HttpMethod, opts => opts.Ignore());
         }
     }
 
-    public class PaymentStatusResolver : ValueResolver<PaymentResponse, PaymentStatus>
+    public class PaymentStatusResolver : IValueResolver<PaymentResponse, PaymentResponseModel, PaymentStatus>
     {
-        protected override PaymentStatus ResolveCore(PaymentResponse source)
+        public PaymentStatus Resolve(PaymentResponse source, PaymentResponseModel destination, PaymentStatus destMember, ResolutionContext context)
         {
             switch (source.Status)
             {
@@ -34,7 +30,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 case "ERROR":
                     return PaymentStatus.Error;
                 default:
-                    throw new ArgumentOutOfRangeException("source.Status", String.Format("Cannot map status string {0} to PaymentStatus enum", source.Status));
+                    throw new ArgumentOutOfRangeException("source.Status", $"Cannot map status string {source.Status} to PaymentStatus enum");
             }
         }
     }

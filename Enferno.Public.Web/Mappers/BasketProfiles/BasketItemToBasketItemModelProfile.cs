@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Mappers.Resolvers;
 using Enferno.Public.Web.Models;
@@ -10,10 +9,10 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
 {
     public class BasketItemToBasketItemModelProfile : Profile
     {
-        protected override void Configure()
+        public BasketItemToBasketItemModelProfile()
         {
             var siteRules = IoC.Resolve<ISiteRules>();
-            Mapper.CreateMap<BasketItem, BasketItemModel>()
+            CreateMap<BasketItem, BasketItemModel>()
                 .ForMember(to => to.ImageUrl,
                     opts => opts.MapFrom(from => from.ImageKey.HasValue ? Link.ImageUrl(from.ImageKey.ToString()) : null))
                 .ForMember(to => to.Price,
@@ -26,9 +25,6 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                     opts => opts.MapFrom(from=> siteRules.GetProductPageUrl(from)));
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

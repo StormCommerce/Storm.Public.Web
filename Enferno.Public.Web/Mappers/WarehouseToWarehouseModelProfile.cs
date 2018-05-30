@@ -7,18 +7,15 @@ namespace Enferno.Public.Web.Mappers
 {
     public class WarehouseToWarehouseModelProfile : Profile
     {
-        protected override void Configure()
+        public WarehouseToWarehouseModelProfile()
         {
-            Mapper.CreateMap<Warehouse, WarehouseModel>()
+            CreateMap<Warehouse, WarehouseModel>()
                 .ForMember(to => to.StoreId, opts => opts.MapFrom(from => from.StoreId))
                 .ForMember(to => to.LocationId, opts => opts.MapFrom(from => from.LocationId))
                 .ForMember(to => to.WarehouseId, opts => opts.MapFrom(from => from.WarehouseId))
                 .ForMember(to => to.OnHand, opts => opts.ResolveUsing<WarehouseOnHandStatusResolver>());
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

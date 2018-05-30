@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ProductFileModelToFileViewModelProfile : Profile
     {
-        protected override void Configure()
+        public ProductFileModelToFileViewModelProfile()
         {
-            Mapper.CreateMap<ProductFileModel, FileViewModel>()
+            CreateMap<ProductFileModel, FileViewModel>()
                 .ForMember(to => to.Type, opts => opts.MapFrom(from => from.Type));
         }
 

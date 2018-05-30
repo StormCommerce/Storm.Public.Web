@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using Enferno.Public.InversionOfControl;
-using Enferno.Public.Web.Mappers.ProductProfiles;
 using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Products;
 using Enferno.Web.StormUtils;
@@ -17,17 +16,17 @@ namespace Enferno.Public.Web.Test.Mappers.ProductProfiles
         public void Init()
         {
             IoC.RegisterType<ISiteRules, TestSiteRules>();
-
-            Mapper.Initialize(conf => conf.AddProfile<ProductProfile>());            
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void MappingIsValid()
         {
             Mapper.AssertConfigurationIsValid();
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void MapProductWithFilesTest()
         {
             // Arrange
@@ -57,7 +56,8 @@ namespace Enferno.Public.Web.Test.Mappers.ProductProfiles
         }
 
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void MapProductItemWithFilesTest()
         {
             // Arrange
@@ -82,7 +82,8 @@ namespace Enferno.Public.Web.Test.Mappers.ProductProfiles
             Assert.AreEqual(model.Files[2].Type, 44);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void MapProductItemWithSameFileInAdditionalImagesTest()
         {
             // Arrange

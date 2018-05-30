@@ -8,9 +8,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class VariantItemToVariantModelProfile : Profile
     {
-        protected override void Configure()
+        public VariantItemToVariantModelProfile()
         {
-            Mapper.CreateMap<VariantItem, VariantModel>()
+            CreateMap<VariantItem, VariantModel>()
                 .ForMember(to => to.ManufacturePartNo, opts => opts.MapFrom(from => from.ManufacturerPartNo))
                 .ForMember(to => to.Price, opts => opts.ResolveUsing<VariantItemPriceResolver>())
                 .ForMember(to => to.Flags, opts => opts.ResolveUsing<VariantItemVariantFlagsResolver>())

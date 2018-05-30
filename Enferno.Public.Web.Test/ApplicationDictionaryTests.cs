@@ -1,20 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Repositories;
 using Enferno.StormApiClient.Products;
-using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Unity.Lifetime;
 
 namespace Enferno.Public.Web.Test
 {
     [TestClass]
     public class ApplicationDictionaryTests
     {
-        protected static readonly string cultureCode = "sv-SE";
+        protected static readonly string CultureCode = "sv-SE";
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void ListPricelistsTest()
         {
             // Arrange
@@ -31,11 +31,11 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productsRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), repository.Object, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
             
             // Act
-            var pricelists = ApplicationDictionary.Instance.Pricelists(cultureCode);
+            var pricelists = ApplicationDictionary.Instance.Pricelists(CultureCode);
 
             // Assert
             Assert.AreEqual(3, pricelists.Count());
@@ -52,7 +52,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), repository.Object, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1
@@ -87,7 +87,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), repository.Object, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1
@@ -135,7 +135,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), repository.Object, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Shopping;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public class BasketItemsResolver : ValueResolver<BasketModel, BasketItemList>
+    public class BasketItemsResolver : IValueResolver<BasketModel, Basket, BasketItemList>
     {
-        protected override BasketItemList ResolveCore(BasketModel source)
+        public BasketItemList Resolve(BasketModel source, Basket destination, BasketItemList destMember, ResolutionContext context)
         {
             var basketItemList = new BasketItemList();
             source.Items.ForEach(item => basketItemList.Add(Mapper.Map<BasketItem>(item)));
@@ -22,9 +19,9 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class BasketModelItemsResolver : ValueResolver<Basket, IEnumerable<BasketItemModel>>
+    public class BasketModelItemsResolver : IValueResolver<Basket, BasketModel, List<BasketItemModel>>
     {
-        protected override IEnumerable<BasketItemModel> ResolveCore(Basket source)
+        public List<BasketItemModel> Resolve(Basket source, BasketModel destination, List<BasketItemModel> destMember, ResolutionContext context)
         {
             var items = source.Items.Where(item => item.Type != (int)ProductType.Freight && item.Type != (int)ProductType.Invoice).ToList();
 
@@ -34,9 +31,9 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class BasketModelPaymentsResolver : ValueResolver<Basket, IEnumerable<BasketItemModel>>
+    public class BasketModelPaymentsResolver : IValueResolver<Basket, BasketModel, List<BasketItemModel>>
     {
-        protected override IEnumerable<BasketItemModel> ResolveCore(Basket source)
+        public List<BasketItemModel> Resolve(Basket source, BasketModel destination, List<BasketItemModel> destMember, ResolutionContext context)
         {
             var items = source.Items.Where(item => item.Type == (int)ProductType.Invoice).ToList();
 
@@ -46,9 +43,9 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class BasketModelFreightsResolver : ValueResolver<Basket, IEnumerable<BasketItemModel>>
+    public class BasketModelFreightsResolver : IValueResolver<Basket, BasketModel, List<BasketItemModel>>
     {
-        protected override IEnumerable<BasketItemModel> ResolveCore(Basket source)
+        public List<BasketItemModel> Resolve(Basket source, BasketModel destination, List<BasketItemModel> destMember, ResolutionContext context)
         {
             var items = source.Items.Where(item => item.Type == (int)ProductType.Freight).ToList();
 

@@ -17,7 +17,7 @@ namespace Enferno.Public.Web.Test.Builders
     [TestClass]
     public class FilterBuilderTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildFiltersTest01()
         {
             // Arrange
@@ -34,7 +34,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(0, result.Count());
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildFiltersTest02()
         {
             // Arrange
@@ -104,7 +104,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(115, result[8].Id);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildFiltersWhenListHasOneWithCountEqualsItemCountTest()
         {
             // Arrange
@@ -133,7 +133,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(1, result.Count);          
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildFiltersWhenListHasAllWithCountEqualsItemCountTest()
         {
             // Arrange
@@ -162,7 +162,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(0, result.Count);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildFiltersWhenListHasMixedWithCountEqualsItemCountTest()
         {
             // Arrange

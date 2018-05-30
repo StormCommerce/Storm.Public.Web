@@ -6,9 +6,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class VariantModelToVariantViewModelProfile : Profile
     {
-        protected override void Configure()
+        public VariantModelToVariantViewModelProfile()
         {
-            Mapper.CreateMap<VariantModel, VariantViewModel>()
+            CreateMap<VariantModel, VariantViewModel>()
                 .ForMember(to => to.OnHandStatusText1, opts => opts.MapFrom(from => from.OnHandStatus.Text1))
                 .ForMember(to => to.OnHandStatusText2, opts => opts.MapFrom(from => from.OnHandStatus.Text2))
                 .ForMember(to => to.OnHandStatus, opts => opts.MapFrom(from => from.OnHandStatus.Status))

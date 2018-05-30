@@ -1,57 +1,54 @@
 ﻿using AutoMapper;
 using Enferno.Public.InversionOfControl;
+using Enferno.Public.Web.Mappers.ProductProfiles;
 using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Products;
 using Enferno.StormApiClient.Shopping;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public class VariantItemOnHandStatusResolver : ValueResolver<VariantItem, OnHandStatusModel>
+    public class VariantItemOnHandStatusResolver : IValueResolver<VariantItem, VariantModel, OnHandStatusModel>
     {
-        protected override OnHandStatusModel ResolveCore(VariantItem variantItem)
+        public OnHandStatusModel Resolve(VariantItem source, VariantModel destination, OnHandStatusModel destMember, ResolutionContext context)
         {
             var siteRules = IoC.Resolve<ISiteRules>();
-
-            return siteRules.GetOnHandStatus(variantItem);
-        }
-    }
-    public class ProductItemOnHandStatusResolver : ValueResolver<ProductItem, OnHandStatusModel>
-    {
-        protected override OnHandStatusModel ResolveCore(ProductItem productItem)
-        {
-            var siteRules = IoC.Resolve<ISiteRules>();
-
-            return siteRules.GetOnHandStatus(productItem);
+            return siteRules.GetOnHandStatus(source);
         }
     }
 
-    public class ProductOnHandStatusResolver : ValueResolver<Product, OnHandStatusModel>
+    public class ProductItemOnHandStatusResolver<TDest>: IValueResolver<ProductItem, TDest, OnHandStatusModel>
     {
-        protected override OnHandStatusModel ResolveCore(Product product)
+        public OnHandStatusModel Resolve(ProductItem source, TDest destination, OnHandStatusModel destMember, ResolutionContext context)
         {
             var siteRules = IoC.Resolve<ISiteRules>();
-
-            return siteRules.GetOnHandStatus(product);
+            return siteRules.GetOnHandStatus(source);
         }
     }
 
-    public class BasketOnHandStatusResolver : ValueResolver<Basket, OnHandStatusModel>
+    public class ProductOnHandStatusResolver<TDest> : IValueResolver<Product, TDest, OnHandStatusModel>
     {
-        protected override OnHandStatusModel ResolveCore(Basket basket)
+        public OnHandStatusModel Resolve(Product source, TDest destination, OnHandStatusModel destMember, ResolutionContext context)
         {
             var siteRules = IoC.Resolve<ISiteRules>();
-
-            return siteRules.GetOnHandStatus(basket);
+            return siteRules.GetOnHandStatus(source);
         }
     }
 
-    public class WarehouseOnHandStatusResolver : ValueResolver<Warehouse, OnHandStatusModel>
+    public class BasketOnHandStatusResolver : IValueResolver<Basket, BasketModel, OnHandStatusModel>
     {
-        protected override OnHandStatusModel ResolveCore(Warehouse warehouse)
+        public OnHandStatusModel Resolve(Basket source, BasketModel destination, OnHandStatusModel destMember, ResolutionContext context)
         {
             var siteRules = IoC.Resolve<ISiteRules>();
+            return siteRules.GetOnHandStatus(source);
+        }
+    }
 
-            return siteRules.GetOnHandStatus(warehouse);
+    public class WarehouseOnHandStatusResolver : IValueResolver<Warehouse, WarehouseModel, OnHandStatusModel>
+    {
+        public OnHandStatusModel Resolve(Warehouse source, WarehouseModel destination, OnHandStatusModel destMember, ResolutionContext context)
+        {
+            var siteRules = IoC.Resolve<ISiteRules>();
+            return siteRules.GetOnHandStatus(source);
         }
     }
 }

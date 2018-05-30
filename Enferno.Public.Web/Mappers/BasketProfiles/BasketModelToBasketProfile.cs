@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
 {
     public class BasketModelToBasketProfile : Profile
     {
-        protected override void Configure()
+        public BasketModelToBasketProfile()
         {
-            Mapper.CreateMap<BasketModel, Basket>()
+            CreateMap<BasketModel, Basket>()
                 .ForMember(basket => basket.SalesContactId, expr => expr.Ignore())
                 .ForMember(basket => basket.StatusId, expr => expr.Ignore())
                 .ForMember(basket => basket.CurrencyId, expr => expr.Ignore())
@@ -24,16 +24,13 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                 .ForMember(basket => basket.IpAddress, expr => expr.Ignore())
                 .ForMember(basket => basket.AttestedBy, expr => expr.Ignore())
                 .ForMember(basket => basket.TypeId, opts => opts.Ignore())
+                .ForMember(basket => basket.DoHold, opts => opts.Ignore())
+                .ForMember(basket => basket.IsBuyable, opts => opts.Ignore())
 
                 .ForMember(basket => basket.AppliedPromotions, expr => expr.ResolveUsing<PromotionsResolver>())
                 .ForMember(basket => basket.Items, expr => expr.ResolveUsing<BasketItemsResolver>());
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
-
-
 }

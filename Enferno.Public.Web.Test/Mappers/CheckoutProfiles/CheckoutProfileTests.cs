@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Enferno.Public.InversionOfControl;
-using Enferno.Public.Web.Mappers.BasketProfiles;
-using Enferno.Public.Web.Mappers.CheckoutProfiles;
 using Enferno.Public.Web.Models;
 using Enferno.Public.Web.Test.Mappers.ProductProfiles;
 using Enferno.StormApiClient.Customers;
@@ -21,19 +19,6 @@ namespace Enferno.Public.Web.Test.Mappers.CheckoutProfiles
         {
             IoC.RegisterType<ISiteRules, TestSiteRules>();
 
-            Mapper.Configuration.AddProfile<BasketToBasketModelProfile>();
-            Mapper.Configuration.AddProfile<BasketItemToBasketItemModelProfile>();
-
-            Mapper.Configuration.AddProfile<CheckoutToCheckoutModelProfile>();
-
-            Mapper.Configuration.AddProfile<AddressToAddressModelProfile>();
-            Mapper.Configuration.AddProfile<CompanyToCompanyModelProfile>();
-            Mapper.Configuration.AddProfile<CustomerToCustomerModelProfile>();
-            Mapper.Configuration.AddProfile<DeliveryMethodToDeliveryMethodModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentMethodToPaymentMethodModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentServiceToPaymentserviceModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentResponseProfile>();
-
             var stormContext = MockRepository.GenerateMock<IStormContext>();
             stormContext.Stub(x => x.Configuration).Return(new StormConfigurationSection());
             stormContext.Stub(x => x.ShowPricesIncVat).Return(true);
@@ -41,13 +26,13 @@ namespace Enferno.Public.Web.Test.Mappers.CheckoutProfiles
             StormContext.SetInstance(stormContext);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MappingIsValid()
         {
             Mapper.AssertConfigurationIsValid();
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void CheckoutToCompanyCheckoutModelTest()
         {
             var checkout = new Checkout()
@@ -133,7 +118,7 @@ namespace Enferno.Public.Web.Test.Mappers.CheckoutProfiles
             Assert.AreEqual(checkoutModel.Buyer.Email, checkout.Buyer.Email);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void CheckoutPrivateShipToModelCustomerTest()
         {           
             var model = new CheckoutPrivateShipToModel
@@ -154,7 +139,7 @@ namespace Enferno.Public.Web.Test.Mappers.CheckoutProfiles
             AssertAddressModelEquals(model.DeliveryAddress, customer.DeliveryAddresses.FirstOrDefault());            
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void CheckoutPrivatePayerToModelCustomerTest()
         {
             var model = new CheckoutPrivatePayerModel

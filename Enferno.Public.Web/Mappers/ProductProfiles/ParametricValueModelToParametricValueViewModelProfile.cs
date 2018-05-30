@@ -6,9 +6,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ParametricValueModelToParametricValueViewModelProfile : Profile
     {
-        protected override void Configure()
+        public ParametricValueModelToParametricValueViewModelProfile()
         {
-            Mapper.CreateMap<ParametricValueModel, ParametricValueViewModel>();
+            CreateMap<ParametricValueModel, ParametricValueViewModel>();
         }
 
         public override string ProfileName => GetType().Name;

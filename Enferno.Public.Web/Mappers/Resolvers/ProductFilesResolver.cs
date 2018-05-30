@@ -9,24 +9,26 @@ using Enferno.Web.StormUtils;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public abstract class ProductFilesBaseResolver : ValueResolver<Product, IEnumerable<ProductFileModel>>
+    public abstract class ProductFilesBaseResolver<TDest> : IValueResolver<Product, TDest, List<ProductFileModel>>
     {
-        protected IEnumerable<ProductFileModel> ResolveBase(Product product, ProductFileType fileType)
+        protected ProductFileType FileType;
+
+        public List<ProductFileModel> Resolve(Product source, TDest destination, List<ProductFileModel> destMember, ResolutionContext context)
         {
             var fileList = new List<ProductFileModel>();
 
-            if (product.ImageKey.HasValue) fileList.Add(new ProductFileModel(fileType, Link.ImageUrl(product.ImageKey.ToString()), product.Name));
+            if (source.ImageKey.HasValue) fileList.Add(new ProductFileModel(FileType, Link.ImageUrl(source.ImageKey.ToString()), source.Name));
 
-            return MapFiles(product, fileList);
-        }  
+            return MapFiles(source, fileList);
+        }
 
-        protected static IEnumerable<ProductFileModel> MapFiles(Product product, List<ProductFileModel> fileList)
+        protected static List<ProductFileModel> MapFiles(Product product, List<ProductFileModel> fileList)
         {
             if (product.Files == null || product.Files.Count <= 0) return fileList;
 
             foreach (var file in product.Files)
             {
-                var url = file.Type == (int) FileType.Embedded
+                var url = file.Type == (int) Web.FileType.Embedded
                     ? file.Path
                     : Link.ImageUrl(file.Key.ToString(), GetFileExtension(file.Type));
 
@@ -52,35 +54,34 @@ namespace Enferno.Public.Web.Mappers.Resolvers
             }
             return Enum.IsDefined(typeof(ExternalFileType), fileType) ? ((ExternalFileType)fileType).ToString().ToLower() : "";
         }
-
     }
 
-    public class ProductFilesResolver : ProductFilesBaseResolver
+    public class ProductFilesResolver : ProductFilesBaseResolver<ProductModel>
     {
-        protected override IEnumerable<ProductFileModel> ResolveCore(Product product)
+        public ProductFilesResolver()
         {
-            return ResolveBase(product, ProductFileType.DefaultImage);
-        }     
-    }
-
-    public class VariantFilesResolver : ProductFilesBaseResolver
-    {
-        protected override IEnumerable<ProductFileModel> ResolveCore(Product product)
-        {
-            return ResolveBase(product, ProductFileType.VariantImage);
+            FileType = ProductFileType.DefaultImage;
         }
     }
 
-    public abstract class ProductItemFilesBaseResolver<T> : ValueResolver<T, IEnumerable<ProductFileModel>>
+    public class VariantFilesResolver : ProductFilesBaseResolver<VariantModel>
     {
-        protected IEnumerable<ProductFileModel> ResolveBase(Guid? imageKey, string altName, string imageKeySeed, ProductFileType fileType)
+        public VariantFilesResolver()
         {
-            var fileList = new List<ProductFileModel>();            
+            FileType = ProductFileType.VariantImage;
+        }
+    }
+
+    public abstract class ProductItemFilesBaseResolver
+    {
+        protected List<ProductFileModel> ResolveBase(Guid? imageKey, string altName, string imageKeySeed, ProductFileType fileType)
+        {
+            var fileList = new List<ProductFileModel>();
             if (imageKey.HasValue) fileList.Add(new ProductFileModel(fileType, Link.ImageUrl(imageKey.ToString()), altName));
             return MapFiles(altName, imageKeySeed, fileList);
         }
 
-        protected static IEnumerable<ProductFileModel> MapFiles(string altText, string imageKeySeed, List<ProductFileModel> fileList)
+        protected static List<ProductFileModel> MapFiles(string altText, string imageKeySeed, List<ProductFileModel> fileList)
         {
             if (string.IsNullOrWhiteSpace(imageKeySeed) || !imageKeySeed.Split(',').Any()) return fileList;
             foreach (var imageKey in imageKeySeed.Split(','))
@@ -95,30 +96,30 @@ namespace Enferno.Public.Web.Mappers.Resolvers
                 }
             }
             return fileList;
-        }   
-    }
-
-    public class ProductItemFilesResolver : ProductItemFilesBaseResolver<ProductItem>
-    {
-        protected override IEnumerable<ProductFileModel> ResolveCore(ProductItem productItem)
-        {
-            return ResolveBase(productItem.ImageKey, productItem.Name, productItem.AdditionalImageKeySeed, ProductFileType.DefaultImage);
         }
     }
 
-    public class VariantItemFilesResolver : ProductItemFilesBaseResolver<ProductItem>
+    public class ProductItemFilesResolver : ProductItemFilesBaseResolver, IValueResolver<ProductItem, ProductItemModel, List<ProductFileModel>>
     {
-        protected override IEnumerable<ProductFileModel> ResolveCore(ProductItem productItem)
+        public List<ProductFileModel> Resolve(ProductItem source, ProductItemModel destination, List<ProductFileModel> destMember, ResolutionContext context)
         {
-            return ResolveBase(productItem.VariantImageKey, productItem.VariantName, productItem.AdditionalImageKeySeed, ProductFileType.VariantImage);
+            return ResolveBase(source.ImageKey, source.Name, source.AdditionalImageKeySeed, ProductFileType.DefaultImage);
         }
     }
 
-    public class VariantItemVariantFilesResolver : ProductItemFilesBaseResolver<VariantItem>
+    public class VariantItemFilesResolver : ProductItemFilesBaseResolver, IValueResolver<ProductItem, VariantModel, List<ProductFileModel>>
     {
-        protected override IEnumerable<ProductFileModel> ResolveCore(VariantItem variantItem)
+        public List<ProductFileModel> Resolve(ProductItem source, VariantModel destination, List<ProductFileModel> destMember, ResolutionContext context)
         {
-            return ResolveBase(variantItem.ImageKey, variantItem.Name, variantItem.AdditionalImageKeySeed, ProductFileType.VariantImage);
+            return ResolveBase(source.VariantImageKey, source.VariantName, source.AdditionalImageKeySeed, ProductFileType.VariantImage);
+        }
+    }
+
+    public class VariantItemVariantFilesResolver : ProductItemFilesBaseResolver, IValueResolver<VariantItem, VariantModel, List<ProductFileModel>>
+    {
+        public List<ProductFileModel> Resolve(VariantItem source, VariantModel destination, List<ProductFileModel> destMember, ResolutionContext context)
+        {
+            return ResolveBase(source.ImageKey, source.Name, source.AdditionalImageKeySeed, ProductFileType.VariantImage);
         }
     }  
 }

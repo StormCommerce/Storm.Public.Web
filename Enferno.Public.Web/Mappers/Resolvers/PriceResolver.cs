@@ -1,51 +1,52 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Products;
 using Enferno.StormApiClient.Shopping;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public class ProductPriceResolver : ValueResolver<Product, PriceModel>
+    public class ProductPriceResolver<TDest> : IValueResolver<Product, TDest, PriceModel>
     {
-        protected override PriceModel ResolveCore(Product product)
+        public PriceModel Resolve(Product source, TDest destination, PriceModel destMember, ResolutionContext context)
         {
             return new PriceModel
             {
-                Display = PriceCalulator.Price(product.Price, product.VatRate),
-                Catalog = PriceCalulator.Price(product.PriceCatalog ?? product.Price, product.VatRate),
-                Recommended = PriceCalulator.Price(product.PriceRecommended ?? product.Price, product.VatRate),
-                Original = PriceCalulator.Price(product.Price, product.VatRate),
-                VatRate = product.VatRate,
-                PricelistId = product.PriceListId,
+                Display = PriceCalulator.Price(source.Price, source.VatRate),
+                Catalog = PriceCalulator.Price(source.PriceCatalog ?? source.Price, source.VatRate),
+                Recommended = PriceCalulator.Price(source.PriceRecommended ?? source.Price, source.VatRate),
+                Original = PriceCalulator.Price(source.Price, source.VatRate),
+                VatRate = source.VatRate,
+                PricelistId = source.PriceListId,
                 IsFromPrice = false
             };
         }
     }
 
-    public class ProductItemPriceResolver : ValueResolver<ProductItem, PriceModel>
+    public class ProductItemPriceResolver<TDest> : IValueResolver<ProductItem, TDest, PriceModel>
     {
-        protected override PriceModel ResolveCore(ProductItem productItem)
+        public PriceModel Resolve(ProductItem source, TDest destination, PriceModel destMember, ResolutionContext context)
         {
             return new PriceModel
             {
-                Display = PriceCalulator.Price(productItem.Price, productItem.VatRate),
-                Catalog = PriceCalulator.Price(productItem.PriceCatalog ?? productItem.Price, productItem.VatRate),
-                Recommended = PriceCalulator.Price(productItem.PriceRecommended ?? productItem.Price, productItem.VatRate),
-                Original = PriceCalulator.Price(productItem.Price, productItem.VatRate),
-                VatRate = productItem.VatRate,
-                PricelistId = productItem.PriceListId.GetValueOrDefault(0),
+                Display = PriceCalulator.Price(source.Price, source.VatRate),
+                Catalog = PriceCalulator.Price(source.PriceCatalog ?? source.Price, source.VatRate),
+                Recommended = PriceCalulator.Price(source.PriceRecommended ?? source.Price, source.VatRate),
+                Original = PriceCalulator.Price(source.Price, source.VatRate),
+                VatRate = source.VatRate,
+                PricelistId = source.PriceListId.GetValueOrDefault(0),
                 IsFromPrice = false
             };
         }
     }
 
-    public class VariantItemPriceResolver : ValueResolver<VariantItem, PriceModel>
+    public class VariantItemPriceResolver : IValueResolver<VariantItem, VariantModel, PriceModel>
     {
-        protected override PriceModel ResolveCore(VariantItem variantItem)
+        public PriceModel Resolve(VariantItem source, VariantModel destination, PriceModel destMember, ResolutionContext context)
         {
-            if(variantItem.Price == null) return new PriceModel();
+            if (source.Price == null) return new PriceModel();
 
-            var price = variantItem.Price;
+            var price = source.Price;
             return new PriceModel
             {
                 Display = PriceCalulator.Price(price.Value, price.VatRate),
@@ -59,18 +60,18 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class BasketPriceResolver : ValueResolver<BasketItem, PriceModel>
+    public class BasketPriceResolver : IValueResolver<BasketItem, BasketItemModel, PriceModel>
     {
-        protected override PriceModel ResolveCore(BasketItem basketItem)
+        public PriceModel Resolve(BasketItem source, BasketItemModel destination, PriceModel destMember, ResolutionContext context)
         {
             return new PriceModel
             {
-                Display = PriceCalulator.Price(basketItem.PriceDisplay, basketItem.VatRate),
-                Catalog = PriceCalulator.Price(basketItem.PriceCatalog ?? basketItem.PriceOriginal, basketItem.VatRate),
-                Recommended = PriceCalulator.Price(basketItem.PriceRecommended ?? basketItem.PriceOriginal, basketItem.VatRate),
-                Original = PriceCalulator.Price(basketItem.PriceOriginal, basketItem.VatRate),
-                VatRate = basketItem.VatRate,
-                PricelistId = basketItem.PriceListId,
+                Display = PriceCalulator.Price(source.PriceDisplay, source.VatRate),
+                Catalog = PriceCalulator.Price(source.PriceCatalog ?? source.PriceOriginal, source.VatRate),
+                Recommended = PriceCalulator.Price(source.PriceRecommended ?? source.PriceOriginal, source.VatRate),
+                Original = PriceCalulator.Price(source.PriceOriginal, source.VatRate),
+                VatRate = source.VatRate,
+                PricelistId = source.PriceListId,
                 IsFromPrice = false
             };
         }

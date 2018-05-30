@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Enferno.Public.Web.Models;
 using Enferno.StormApiClient.Shopping;
 
 namespace Enferno.Public.Web.Mappers.Resolvers
 {
-    public class PromotionsResolver : ValueResolver<BasketModel, PromotionList>
+    public class PromotionsResolver : IValueResolver<BasketModel, Basket, PromotionList>
     {
-        protected override PromotionList ResolveCore(BasketModel source)
+        public PromotionList Resolve(BasketModel source, Basket destination, PromotionList destMember, ResolutionContext context)
         {
             var promotionList = new PromotionList();
             promotionList.AddRange(source.Promotions.Select(Mapper.Map<PromotionModel, Promotion>));
@@ -20,9 +17,9 @@ namespace Enferno.Public.Web.Mappers.Resolvers
         }
     }
 
-    public class PromotionModelsResolver : ValueResolver<Basket, IEnumerable<PromotionModel>>
+    public class PromotionModelsResolver : IValueResolver<Basket, BasketModel, List<PromotionModel>>
     {
-        protected override IEnumerable<PromotionModel> ResolveCore(Basket source)
+        public List<PromotionModel> Resolve(Basket source, BasketModel destination, List<PromotionModel> destMember, ResolutionContext context)
         {
             var promotionModelList = source.AppliedPromotions.Select(Mapper.Map<Promotion, PromotionModel>).ToList();
             return promotionModelList;

@@ -7,18 +7,15 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
 {
     public class PromotionToPromotionModelProfile : Profile
     {
-        protected override void Configure()
+        public PromotionToPromotionModelProfile()
         {
-            Mapper.CreateMap<Promotion, PromotionModel>()
+            CreateMap<Promotion, PromotionModel>()
                 .ForMember(to => to.Images, opts => opts.Ignore()) //ignore for now.
                 .ForMember(to => to.ImageUrl,
                     opts =>
                         opts.MapFrom(from => from.ImageKey.HasValue ? Link.ImageUrl(from.ImageKey.ToString()) : null));
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

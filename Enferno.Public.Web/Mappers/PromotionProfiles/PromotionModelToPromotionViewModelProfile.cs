@@ -6,14 +6,11 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
 {
     public class PromotionModelToPromotionViewModelProfile : Profile
     {
-        protected override void Configure()
+        public PromotionModelToPromotionViewModelProfile()
         {
-            Mapper.CreateMap<PromotionModel, PromotionViewModel>();
+            CreateMap<PromotionModel, PromotionViewModel>();
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

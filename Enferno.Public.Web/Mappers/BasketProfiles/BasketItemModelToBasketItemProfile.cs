@@ -7,9 +7,16 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
 {
     public class BasketItemModelToBasketItemProfile : Profile
     {
-        protected override void Configure()
+        public BasketItemModelToBasketItemProfile()
         {
-            Mapper.CreateMap<BasketItemModel, BasketItem>()
+            CreateMap<BasketItemModel, BasketItem>()
+                .ForMember(item => item.PriceDisplay, expr => expr.MapFrom(model => model.Price.Display))
+                .ForMember(item => item.PriceCatalog, expr => expr.MapFrom(model => model.Price.Catalog))
+                .ForMember(item => item.PriceRecommended, expr => expr.MapFrom(model => model.Price.Recommended))
+                .ForMember(item => item.VatRate, expr => expr.MapFrom(model => model.Price.VatRate))
+                .ForMember(item => item.PriceListId, expr => expr.MapFrom(model => model.Price.PricelistId))
+                .ForMember(item => item.PriceOriginal, expr => expr.MapFrom(model => model.Price.Original))
+
                 .ForMember(item => item.ParentLineNo, expr => expr.Ignore())
                 .ForMember(item => item.ProductId, expr => expr.Ignore())
                 .ForMember(item => item.ManufacturerPartNo, expr => expr.Ignore())
@@ -50,24 +57,11 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                 //TODO: how to get key from url
                 .ForMember(item => item.ImageKey, expr => expr.Ignore())
                 .ForMember(item => item.IsRecommendedQuantityFixed, expr => expr.Ignore())
-
-                .ForMember(item => item.PriceDisplay, expr => expr.MapFrom(model => model.Price.Display))
-                .ForMember(item => item.PriceCatalog, expr => expr.MapFrom(model => model.Price.Catalog))
-                .ForMember(item => item.PriceRecommended, expr => expr.MapFrom(model => model.Price.Recommended)) 
-                .ForMember(item => item.VatRate, expr => expr.MapFrom(model => model.Price.VatRate)) 
-                .ForMember(item => item.PriceListId, expr => expr.MapFrom(model => model.Price.PricelistId))
-                .ForMember(item => item.PriceOriginal, expr => expr.MapFrom(model => model.Price.Original));
+                .ForMember(item => item.PriceStandard, expr => expr.Ignore())
+                .ForMember(item => item.EanCode, expr => expr.Ignore())
+                ;
         }
 
         public override string ProfileName => GetType().Name;
-    }
-
-    public static class MappingExpressionExtensions
-    {
-        public static IMappingExpression<TSource, TDest> IgnoreAllUnmapped<TSource, TDest>(this IMappingExpression<TSource, TDest> expression)
-        {
-            expression.ForAllMembers(opt => opt.Ignore());
-            return expression;
-        }
-    }
+    }   
 }

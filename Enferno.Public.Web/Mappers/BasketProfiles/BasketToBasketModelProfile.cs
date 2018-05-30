@@ -7,10 +7,11 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
 {
     public class BasketToBasketModelProfile : Profile
     {
-        protected override void Configure()
+        public BasketToBasketModelProfile()
         {
+            //var siteRules = IoC.Resolve<ISiteRules>();
             var siteRules = IoC.Resolve<ISiteRules>();
-            Mapper.CreateMap<StormApiClient.Shopping.Basket, BasketModel>()               
+            CreateMap<StormApiClient.Shopping.Basket, BasketModel>()               
                 .ForMember(basketModel => basketModel.Promotions,
                     basketConfig => basketConfig.ResolveUsing<PromotionModelsResolver>())
                 .ForMember(basketModel => basketModel.OnHand,
@@ -23,9 +24,6 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                     opts => opts.ResolveUsing<BasketModelItemsResolver>());
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ProductToProductModelProfile : Profile
     {
-        protected override void Configure()
+        public ProductToProductModelProfile()
         {
-            Mapper.CreateMap<Product, ProductModel>()
+            CreateMap<Product, ProductModel>()
                 .ForMember(
                     to => to.Category,
                     opts =>
@@ -21,10 +21,10 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
                                     model.Id = product.CategoryId.Value;
                                 return model;
                             }))
-                .ForMember(to => to.Flags, opts => opts.ResolveUsing<ProductFlagsResolver>())
+                .ForMember(to => to.Flags, opts => opts.ResolveUsing<ProductFlagsResolver<ProductModel>>())
                 .ForMember(to => to.Files, opts => opts.ResolveUsing<ProductFilesResolver>())
-                .ForMember(to => to.OnHandStatus, opts => opts.ResolveUsing<ProductOnHandStatusResolver>())
-                .ForMember(to=> to.Price, opts=> opts.ResolveUsing<ProductPriceResolver>())
+                .ForMember(to => to.OnHandStatus, opts => opts.ResolveUsing<ProductOnHandStatusResolver<ProductModel>>())
+                .ForMember(to=> to.Price, opts=> opts.ResolveUsing<ProductPriceResolver<ProductModel>>())
                 .ForMember(to => to.UnitOfMeasurement, opts => opts.MapFrom(from => from.Uom))
                 .ForMember(to => to.Families, opts => opts.Ignore()) //mapped in the builder
                 .ForMember(to => to.Products, opts => opts.Ignore()) //mapped in the builder

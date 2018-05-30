@@ -1,19 +1,10 @@
 ﻿
 using System;
-using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Builders;
-using Enferno.Public.Web.Mappers;
-using Enferno.Public.Web.Mappers.ProductProfiles;
-using Enferno.Public.Web.Repositories;
-using Enferno.StormApiClient.Expose;
-using Enferno.StormApiClient.ExposeProxy;
 using Enferno.StormApiClient.Products;
-using Enferno.Web.StormUtils;
-using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using ParametricValue = Enferno.StormApiClient.Products.ParametricValue;
 
 namespace Enferno.Public.Web.Test.Builders
 {
@@ -25,10 +16,9 @@ namespace Enferno.Public.Web.Test.Builders
         {
             var rules = MockRepository.GenerateMock<ISiteRules>();
             IoC.RegisterInstance(typeof (ISiteRules), rules);
-            Mapper.Initialize(cfg => cfg.AddProfile<ManufacturerToManufacturerModelProfile>());
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void BuildManufacturerModelTest01()
         {
             // Arrange

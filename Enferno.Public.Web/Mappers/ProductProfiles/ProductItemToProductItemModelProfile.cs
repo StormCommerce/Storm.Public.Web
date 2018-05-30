@@ -1,4 +1,6 @@
 ﻿
+using System.Collections;
+using System.Collections.Generic;
 using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Mappers.Resolvers;
@@ -9,16 +11,16 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ProductItemToProductItemModelProfile : Profile
     {
-        protected override void Configure()
+        public ProductItemToProductItemModelProfile()
         {
             var siteRules = IoC.Resolve<ISiteRules>();
 
-            Mapper.CreateMap<ProductItem, ProductItemModel>()
+            CreateMap<ProductItem, ProductItemModel>()
                 .ForMember(to => to.Url, opts => opts.ResolveUsing(siteRules.GetProductPageUrl))
                 .ForMember(to => to.Price, opts => opts.Ignore()) //is mapped in the builder
                 .ForMember(to => to.Flags, opts => opts.ResolveUsing<ProductItemFlagsResolver>())
                 .ForMember(to => to.Files, opts => opts.ResolveUsing<ProductItemFilesResolver>())
-                .ForMember(to => to.OnHandStatus, opts => opts.ResolveUsing<ProductItemOnHandStatusResolver>())
+                .ForMember(to => to.OnHandStatus, opts => opts.ResolveUsing<ProductItemOnHandStatusResolver<ProductItemModel>>())
                 .ForMember(to => to.Variants, opts => opts.Ignore()) //mapped in the builder
                 .ForMember(to => to.Parametrics, opts => opts.Ignore());
         }

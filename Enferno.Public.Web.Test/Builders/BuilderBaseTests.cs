@@ -12,7 +12,7 @@ namespace Enferno.Public.Web.Test.Builders
     [TestClass]
     public class BuilderBaseTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void GetImageUrlTest01()
         {
             var imageKey = Guid.Empty;
@@ -20,7 +20,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual("http://services.enferno.se/image/00000000-0000-0000-0000-000000000000.jpg", result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapProductManufacturerTest01()
         {
             // Arrange
@@ -39,7 +39,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(null, result.ImageUrl);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapProductManufacturerTest02()
         {
             // Arrange
@@ -59,7 +59,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual("http://services.enferno.se/image/00000000-0000-0000-0000-000000000000.jpg", result.ImageUrl);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapFlagsTest01()
         {
             // Arrange
@@ -71,8 +71,8 @@ namespace Enferno.Public.Web.Test.Builders
             // Assert
             Assert.AreEqual(0, flagList.Count);
         }
-        
-        [TestMethod]
+
+        [TestMethod, TestCategory("UnitTest")]
         public void MapFlagsTest02()
         {
             // Arrange
@@ -86,7 +86,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(4, flagList.Count);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapFlagsTest03()
         {
             // Arrange
@@ -100,7 +100,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(3, flagList.Count);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest01()
         {
             // Arrange
@@ -127,8 +127,8 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(100, result.Catalog);
             Assert.AreEqual(100, result.Recommended);
         }
-        
-        [TestMethod]
+
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest02()
         {
             // Arrange
@@ -156,7 +156,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(125, result.Recommended);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest03()
         {
             // Arrange
@@ -187,7 +187,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(250, result.Recommended);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest04()
         {
             // Arrange
@@ -215,7 +215,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(100, result.Recommended);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest05()
         {
             // Arrange
@@ -243,7 +243,7 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(125, result.Recommended);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void MapPriceTest06()
         {
             // Arrange
@@ -272,7 +272,8 @@ namespace Enferno.Public.Web.Test.Builders
             Assert.AreEqual(250, result.Recommended);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
+
         public void MapPriceTest07()
         {
             // Arrange

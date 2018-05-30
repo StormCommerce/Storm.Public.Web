@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ProductManufacturerToProductManufacturerModelProfile : Profile
     {
-        protected override void Configure()
+        public ProductManufacturerToProductManufacturerModelProfile()
         {
-            Mapper.CreateMap<ProductManufacturer, ProductManufacturerModel>()
+            CreateMap<ProductManufacturer, ProductManufacturerModel>()
                 .ForMember(to => to.ImageUrl,
                     opts => opts.ResolveUsing(productManufacturer => Link.ImageUrl(productManufacturer.LogoKey, null)));
 

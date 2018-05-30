@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using AutoMapper;
 using Enferno.Public.InversionOfControl;
 using Enferno.Public.Web.Managers;
-using Enferno.Public.Web.Mappers.ProductProfiles;
 using Enferno.Public.Web.Repositories;
 using Enferno.StormApiClient.Expose;
 using Enferno.StormApiClient.ExposeProxy;
 using Enferno.StormApiClient.Products;
 using Enferno.Web.StormUtils;
-using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using ParametricValue = Enferno.StormApiClient.Products.ParametricValue;
+using Unity.Lifetime;
 
 namespace Enferno.Public.Web.Test.Managers
 {
@@ -20,9 +17,9 @@ namespace Enferno.Public.Web.Test.Managers
     public class ProductManagerTests
     {
 
-        private ProductManager _productManager;
+        private ProductManager productManager;
 
-        private readonly Product _product = new Product
+        private readonly Product product = new Product
         {
             Id = 1,
             Name = "MockProduct",
@@ -84,7 +81,7 @@ namespace Enferno.Public.Web.Test.Managers
         public void Initialize()
         {
             var productRepository = MockRepository.GenerateMock<IProductRepository>();
-            productRepository.Stub(mock => mock.GetProduct(_product.Id)).Return(_product);
+            productRepository.Stub(mock => mock.GetProduct(product.Id)).Return(product);
 
             productRepository.Stub(r => r.ListManufacturers(""))
                 .IgnoreArguments()
@@ -120,12 +117,10 @@ namespace Enferno.Public.Web.Test.Managers
             var siteRules = MockRepository.GenerateMock<ISiteRules>();
             IoC.RegisterInstance(typeof (ISiteRules), siteRules);
 
-            Mapper.AddProfile<ProductProfile>();
-
-            _productManager = new ProductManager();
+            productManager = new ProductManager();
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void CanGetProductFromId()
         {
             // Arrange
@@ -155,14 +150,14 @@ namespace Enferno.Public.Web.Test.Managers
             var repository = MockRepository.GenerateMock<IRepository>();
             repository.Stub(x => x.Products).Return(productsRepository);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), repository, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "IRepository", repository, new PerThreadLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
 
-            var productViewModel = _productManager.GetProduct(_product.Id);
+            var productViewModel = productManager.GetProduct(product.Id);
 
             Assert.IsNotNull(productViewModel);
-            Assert.AreEqual(_product.PriceListId, productViewModel.PriceListId);
-            Assert.AreEqual(_product.Price, productViewModel.DisplayPrice);
+            Assert.AreEqual(product.PriceListId, productViewModel.PriceListId);
+            Assert.AreEqual(product.Price, productViewModel.DisplayPrice);
         }
     }
 }

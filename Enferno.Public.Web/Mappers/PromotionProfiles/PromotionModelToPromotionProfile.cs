@@ -6,9 +6,9 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
 {
     public class PromotionModelToPromotionProfile : Profile
     {
-        protected override void Configure()
+        public PromotionModelToPromotionProfile()
         {
-            Mapper.CreateMap<PromotionModel, Promotion>()
+            CreateMap<PromotionModel, Promotion>()
                 .ForMember(to => to.Images, opts => opts.Ignore()) //ignore for now.
                 .ForMember(to => to.ImageKey, opts => opts.Ignore())
                 .ForMember(to => to.ExtensionData, opts => opts.Ignore())
@@ -16,9 +16,6 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
                 .ForMember(to => to.ProductFilters, opts => opts.Ignore());
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

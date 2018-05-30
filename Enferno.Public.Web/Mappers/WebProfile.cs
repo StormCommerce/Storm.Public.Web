@@ -8,32 +8,54 @@ namespace Enferno.Public.Web.Mappers
 {
     public class WebProfile : Profile
     {
-        protected override void Configure()
+        public static void Configure()
         {
-            //Basket
-            Mapper.Configuration.AddProfile<BasketToBasketModelProfile>();
-            Mapper.Configuration.AddProfile<BasketItemModelToBasketItemProfile>();
-            Mapper.Configuration.AddProfile<BasketModelToBasketProfile>();
-            Mapper.Configuration.AddProfile<BasketItemToBasketItemModelProfile>();
+            Mapper.Initialize(cfg =>
+            {
+                //Basket
+                cfg.AddProfile<BasketToBasketModelProfile>();
+                cfg.AddProfile<BasketItemModelToBasketItemProfile>();
+                cfg.AddProfile<BasketModelToBasketProfile>();
+                cfg.AddProfile<BasketItemToBasketItemModelProfile>();
 
-            //Checkout
-            Mapper.Configuration.AddProfile<AddressToAddressModelProfile>();
-            Mapper.Configuration.AddProfile<CheckoutToCheckoutModelProfile>();
-            Mapper.Configuration.AddProfile<CompanyToCompanyModelProfile>();
-            Mapper.Configuration.AddProfile<CustomerToCustomerModelProfile>();
-            Mapper.Configuration.AddProfile<DeliveryMethodToDeliveryMethodModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentMethodToPaymentMethodModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentServiceToPaymentserviceModelProfile>();
-            Mapper.Configuration.AddProfile<PaymentResponseProfile>();
+                //Checkout
+                cfg.AddProfile<AddressToAddressModelProfile>();
+                cfg.AddProfile<CheckoutToCheckoutModelProfile>();
+                cfg.AddProfile<CompanyToCompanyModelProfile>();
+                cfg.AddProfile<CustomerToCustomerModelProfile>();
+                cfg.AddProfile<DeliveryMethodToDeliveryMethodModelProfile>();
+                cfg.AddProfile<PaymentMethodToPaymentMethodModelProfile>();
+                cfg.AddProfile<PaymentServiceToPaymentserviceModelProfile>();
+                cfg.AddProfile<PaymentResponseProfile>();
 
-            //Product
-            Mapper.Configuration.AddProfile<ProductProfile>();
+                //Product
+                cfg.AddProfile<ProductManufacturerToProductManufacturerModelProfile>();
+                cfg.AddProfile<ProductFileToProductFileModelProfile>();
+                cfg.AddProfile<ProductItemToProductItemModelProfile>();
+                cfg.AddProfile<ProductItemToVariantModelProfile>();
+                cfg.AddProfile<VariantItemToVariantModelProfile>();
+                cfg.AddProfile<ProductToVariantModelProfile>();
+                cfg.AddProfile<ProductToProductModelProfile>();
 
-            //Promotion
-            Mapper.Configuration.AddProfile<PromotionProfile>();
+                cfg.AddProfile<ManufacturerToManufacturerModelProfile>();
 
-            //Manufacturer
-            Mapper.Configuration.AddProfile<ManufacturerToManufacturerModelProfile>();
+                cfg.AddProfile<ProductModelToProductViewModelProfile>();
+                cfg.AddProfile<ProductFileModelToFileViewModelProfile>();
+                cfg.AddProfile<ParametricModelToParametricViewModelProfile>();
+                cfg.AddProfile<ParametricValueModelToParametricValueViewModelProfile>();
+                cfg.AddProfile<VariantModelToVariantViewModelProfile>();
+
+                //Promotion
+                cfg.AddProfile<PromotionToPromotionModelProfile>();
+                cfg.AddProfile<PromotionModelToPromotionProfile>();
+                cfg.AddProfile<PromotionModelToPromotionViewModelProfile>();
+                cfg.AddProfile<PromotionViewModelToPromotionModelProfile>();
+
+                //Manufacturer
+
+                cfg.AddProfile<WarehouseModelToWarehouseProfile>();
+                cfg.AddProfile<WarehouseToWarehouseModelProfile>();
+            });
         }
     }
 }

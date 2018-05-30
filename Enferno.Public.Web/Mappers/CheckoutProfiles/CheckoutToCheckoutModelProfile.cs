@@ -7,20 +7,20 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
 {
     public class CheckoutToCheckoutModelProfile : Profile
     {
-        protected override void Configure()
+        public CheckoutToCheckoutModelProfile()
         {
             //Customer -> CheckoutPayerModel
-            Mapper.CreateMap<Customer, CheckoutPayerModel>()
+            CreateMap<Customer, CheckoutPayerModel>()
                 .ForMember(to => to.CustomerId, opts => opts.MapFrom(from => from.Id))
                 .Include<Customer, CheckoutPrivatePayerModel>()
                 .Include<Customer, CheckoutCompanyPayerModel>();
 
-            Mapper.CreateMap<Customer, CheckoutPrivatePayerModel>()
+            CreateMap<Customer, CheckoutPrivatePayerModel>()
                 .ForMember(to => to.PersonInformation,
                     opts => opts.MapFrom(from => Mapper.Map<Customer, PersonInformationModel>(from)))
                 .ForMember(to => to.SocialSecurityNumber, opts => opts.MapFrom(from => from.SSN));
 
-            Mapper.CreateMap<Customer, CheckoutCompanyPayerModel>()
+            CreateMap<Customer, CheckoutCompanyPayerModel>()
                 .ForMember(to => to.InvoiceAddress,
                     opts => opts.MapFrom(from => from.Companies != null && from.Companies.Count > 0
                         ? from.Companies[0].InvoiceAddress
@@ -53,7 +53,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                                     : null));
 
             //CheckoutPayerModel -> Customer
-            Mapper.CreateMap<CheckoutPayerModel, Customer>()
+            CreateMap<CheckoutPayerModel, Customer>()
                 .ForMember(to => to.Id, opts => opts.MapFrom(from => from.CustomerId))
                 .ForMember(to => to.Key, opts => opts.Ignore())
                 .ForMember(to => to.Code, opts => opts.Ignore())
@@ -76,7 +76,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .Include<CheckoutPrivatePayerModel, Customer>()
                 .Include<CheckoutCompanyPayerModel, Customer>();
 
-            Mapper.CreateMap<CheckoutPrivatePayerModel, Customer>()
+            CreateMap<CheckoutPrivatePayerModel, Customer>()
                 .ForMember(to => to.Email,
                     opts => opts.MapFrom(from => from.PersonInformation.Email))
                 .ForMember(to => to.FirstName,
@@ -91,7 +91,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .ForMember(to => to.Companies, opts => opts.Ignore())
                 .ForMember(to => to.PricelistIds, opts => opts.Ignore());
 
-            Mapper.CreateMap<CheckoutCompanyPayerModel, Customer>()
+            CreateMap<CheckoutCompanyPayerModel, Customer>()
                 .BeforeMap((from, to) =>
                 {
                     var company = Mapper.Map<CompanyInformationModel, Company>(from.CompanyInformation);
@@ -112,13 +112,13 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .ForMember(to => to.PricelistIds, opts => opts.Ignore());
 
             //Customer -> CheckoutShipToModel
-            Mapper.CreateMap<Customer, CheckoutShipToModel>()
+            CreateMap<Customer, CheckoutShipToModel>()
                 .ForMember(to => to.CustomerId, opts => opts.MapFrom(from => from.Id))
                 .ForMember(to => to.DeliveryAddress, opts => opts.Ignore())
                 .Include<Customer, CheckoutPrivateShipToModel>()
                 .Include<Customer, CheckoutCompanyShipToModel>();
 
-            Mapper.CreateMap<Customer, CheckoutPrivateShipToModel>()
+            CreateMap<Customer, CheckoutPrivateShipToModel>()
                 .ForMember(to => to.DeliveryAddress,
                     opts =>
                         opts.MapFrom(
@@ -130,7 +130,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                     opts => opts.MapFrom(from => Mapper.Map<Customer, PersonInformationModel>(from)))
                 .ForMember(to => to.SocialSecurityNumber, opts => opts.MapFrom(from => from.SSN));
 
-            Mapper.CreateMap<Customer, CheckoutCompanyShipToModel>()
+            CreateMap<Customer, CheckoutCompanyShipToModel>()
                 .ForMember(to => to.DeliveryAddress,
                     opts =>
                         opts.MapFrom(
@@ -168,7 +168,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                                     : null));
 
             //CheckoutShipToModel -> Customer
-            Mapper.CreateMap<CheckoutShipToModel, Customer>()
+            CreateMap<CheckoutShipToModel, Customer>()
                 .ForMember(to => to.Id, opts => opts.MapFrom(from => from.CustomerId))
                 .ForMember(to => to.Key, opts => opts.Ignore())
                 .ForMember(to => to.Code, opts => opts.Ignore())
@@ -192,7 +192,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .Include<CheckoutPrivateShipToModel, Customer>()
                 .Include<CheckoutCompanyShipToModel, Customer>();
 
-            Mapper.CreateMap<CheckoutPrivateShipToModel, Customer>()
+            CreateMap<CheckoutPrivateShipToModel, Customer>()
                 .ForMember(to => to.Email, opts => opts.MapFrom(from => from.PersonInformation.Email))
                 .ForMember(to => to.FirstName, opts => opts.MapFrom(from => from.PersonInformation.FirstName))
                 .ForMember(to => to.LastName, opts => opts.MapFrom(from => from.PersonInformation.LastName))
@@ -201,7 +201,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .ForMember(to => to.DeliveryAddresses, opts => opts.MapFrom(from => new AddressList {Mapper.Map<AddressModel, Address>(from.DeliveryAddress)}))
                 .ForMember(to => to.PricelistIds, opts => opts.Ignore());
 
-            Mapper.CreateMap<CheckoutCompanyShipToModel, Customer>()
+            CreateMap<CheckoutCompanyShipToModel, Customer>()
                 .BeforeMap((from, to) =>
                 {
                     var company = Mapper.Map<CompanyInformationModel, Company>(from.CompanyInformation);
@@ -226,7 +226,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
 
 
             //Checkout -> PrivateCheckoutModel
-            Mapper.CreateMap<Checkout, PrivateCheckoutModel>()
+            CreateMap<Checkout, PrivateCheckoutModel>()
                 .ForMember(to => to.Buyer,
                     opts => opts.MapFrom(
                         from =>
@@ -245,7 +245,7 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
 
 
             //Checkout -> CompanyCheckoutModel
-            Mapper.CreateMap<Checkout, CompanyCheckoutModel>()
+            CreateMap<Checkout, CompanyCheckoutModel>()
                 .ForMember(to => to.Buyer,
                     opts => opts.MapFrom(
                         from =>
@@ -265,9 +265,6 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
 
         }
 
-        public override string ProfileName
-        {
-            get { return GetType().Name; }
-        }
+        public override string ProfileName => GetType().Name;
     }
 }

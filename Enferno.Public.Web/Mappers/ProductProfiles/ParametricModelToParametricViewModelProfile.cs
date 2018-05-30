@@ -7,9 +7,9 @@ namespace Enferno.Public.Web.Mappers.ProductProfiles
 {
     public class ParametricModelToParametricViewModelProfile : Profile
     {
-        protected override void Configure()
+        public ParametricModelToParametricViewModelProfile()
         {
-            Mapper.CreateMap<ParametricModel, ParametricViewModel>()
+            CreateMap<ParametricModel, ParametricViewModel>()
                 .ForMember(to => to.UnitOfMeasurement, opts => opts.MapFrom(from => from.Uom));
         }
 
