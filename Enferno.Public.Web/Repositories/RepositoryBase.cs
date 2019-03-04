@@ -6,8 +6,6 @@ using Enferno.Public.Web.Models;
 using Enferno.StormApiClient;
 using Enferno.StormApiClient.ExposeProxy;
 using Enferno.Web.StormUtils;
-using Unity.Interception.Utilities;
-
 
 namespace Enferno.Public.Web.Repositories
 {
@@ -101,7 +99,7 @@ namespace Enferno.Public.Web.Repositories
 
         protected static string GetAccessoryTypeSeed(AccessoryType[] accessoryTypes)
         {
-            return accessoryTypes == null || accessoryTypes.Length == 0 ? null : accessoryTypes.Select(t => XmlConvert.ToString((int)t)).JoinStrings(",");
+            return accessoryTypes == null || accessoryTypes.Length == 0 ? null : string.Join(",", accessoryTypes.Select(t => XmlConvert.ToString((int)t)));
         }
 
         protected static string GetNullableInt(int? i)

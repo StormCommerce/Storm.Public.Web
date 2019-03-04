@@ -150,7 +150,7 @@ namespace Enferno.Public.Web.Test.Managers
             var repository = MockRepository.GenerateMock<IRepository>();
             repository.Stub(x => x.Products).Return(productsRepository);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), "IRepository", repository, new PerThreadLifetimeManager());
+            IoC.Container.RegisterInstance(typeof(IRepository), "IRepository", repository, new SingletonLifetimeManager());
             ApplicationDictionary.Instance.Refresh();
 
             var productViewModel = productManager.GetProduct(product.Id);

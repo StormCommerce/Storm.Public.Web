@@ -15,7 +15,8 @@ namespace Enferno.Public.Web.Mappers.CheckoutProfiles
                 .ForMember(to => to.Region, opts => opts.Ignore())
                 .ForMember(to => to.ExtensionData, opts => opts.Ignore())
                 .ForMember(to => to.IsValidated, opts => opts.Ignore())
-                .ForMember(to => to.GlobalLocationNo, opts => opts.Ignore());
+                .ForMember(to => to.GlobalLocationNo, opts => opts.Ignore())
+                .ForMember(to => to.ShippingPhoneNumber, opts => opts.Ignore());
         }
     }
 }

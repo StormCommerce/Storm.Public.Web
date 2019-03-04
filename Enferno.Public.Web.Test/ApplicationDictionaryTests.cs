@@ -31,7 +31,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productsRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
+            IoC.RegisterInstance(typeof(IRepository), repository.Object);
             ApplicationDictionary.Instance.Refresh();
             
             // Act
@@ -52,7 +52,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
+            IoC.RegisterInstance(typeof(IRepository), repository.Object);
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1
@@ -87,7 +87,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
+            IoC.RegisterInstance(typeof(IRepository), repository.Object);
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1
@@ -135,7 +135,7 @@ namespace Enferno.Public.Web.Test
             var repository = new Mock<IRepository>();
             repository.Setup(x => x.Products).Returns(productRepository.Object);
 
-            IoC.Container.RegisterInstance(typeof(IRepository), "", repository.Object, new PerThreadLifetimeManager());
+            IoC.RegisterInstance(typeof(IRepository), repository.Object);
             ApplicationDictionary.Instance.Refresh();
 
             // Act 1

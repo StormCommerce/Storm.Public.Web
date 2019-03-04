@@ -6,7 +6,7 @@ using Enferno.StormApiClient.Expose;
 using Enferno.StormApiClient.ExposeProxy;
 using Enferno.StormApiClient.Products;
 using Enferno.Web.StormUtils;
-using Unity.Interception.Utilities;
+using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 
 namespace Enferno.Public.Web.Builders
 {

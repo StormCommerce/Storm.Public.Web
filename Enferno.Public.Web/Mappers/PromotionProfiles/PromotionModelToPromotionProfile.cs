@@ -13,7 +13,10 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
                 .ForMember(to => to.ImageKey, opts => opts.Ignore())
                 .ForMember(to => to.ExtensionData, opts => opts.Ignore())
                 .ForMember(to => to.AppliedAmount, opts => opts.Ignore())
-                .ForMember(to => to.ProductFilters, opts => opts.Ignore());
+                .ForMember(to => to.ProductFilters, opts => opts.Ignore())
+                .ForMember(to => to.EffectSeed, opts => opts.Ignore())
+                .ForMember(to => to.FreightDiscountPct, opts => opts.Ignore())
+                .ForMember(to => to.IsStackable, opts => opts.Ignore());
         }
 
         public override string ProfileName => GetType().Name;
