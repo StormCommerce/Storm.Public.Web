@@ -17,58 +17,58 @@ namespace Enferno.Public.Web.Repositories
             MyClient = client;
         }
 
-        public Product GetProduct(int id, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public Product GetProduct(int id, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.GetProduct(id, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
+                return client.ProductProxy.GetProduct(id, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
             }
         }
 
         public ProductOnHand GetProductOnHand(int id, IEnumerable<Warehouse> warehouses, string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool useCache = true)
         {
             var warehouseList = new WarehouseList();
             warehouseList.AddRange(warehouses);
 
-            return GetProductOnHand(id, warehouseList, statusSeed, pricelistSeed, customerId, companyId, cultureCode, currencyId, useCache);
+            return GetProductOnHand(id, warehouseList, statusSeed, priceListSeed, customerId, companyId, cultureCode, currencyId, useCache);
         }
 
         public ProductOnHand GetProductOnHand(string partNo, IEnumerable<Warehouse> warehouses, string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool useCache = true)
         {
             var warehouseList = new WarehouseList();
             warehouseList.AddRange(warehouses);
 
-            return GetProductOnHand(partNo, warehouseList, statusSeed, pricelistSeed, customerId, companyId, cultureCode, currencyId, useCache);
+            return GetProductOnHand(partNo, warehouseList, statusSeed, priceListSeed, customerId, companyId, cultureCode, currencyId, useCache);
         }
 
         public ProductOnHand GetProductExternalOnHand(int id, IEnumerable<Warehouse> warehouses, string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool useCache = true)
         {
             var warehouseList = new WarehouseList();
             warehouseList.AddRange(warehouses);
 
-            return GetProductOnHand(id, warehouseList, statusSeed, pricelistSeed, customerId, companyId, cultureCode, currencyId, true, useCache);
+            return GetProductOnHand(id, warehouseList, statusSeed, priceListSeed, customerId, companyId, cultureCode, currencyId, true, useCache);
         }
 
         public ProductOnHand GetProductExternalOnHand(string partNo, IEnumerable<Warehouse> warehouses,
             string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool useCache = true)
         {
             var warehouseList = new WarehouseList();
             warehouseList.AddRange(warehouses);
 
-            return GetProductOnHand(partNo, warehouseList, statusSeed, pricelistSeed, customerId, companyId, cultureCode, currencyId, true, useCache);
+            return GetProductOnHand(partNo, warehouseList, statusSeed, priceListSeed, customerId, companyId, cultureCode, currencyId, true, useCache);
         }
 
         private ProductOnHand GetProductOnHand(int id, WarehouseList warehouses, string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool external = false, bool useCache = true)
         {
             using (var client = GetBatch())
@@ -77,18 +77,18 @@ namespace Enferno.Public.Web.Repositories
                 if (external)
                 {
                     return client.ProductProxy.GetExternalProductOnHandByProduct(id, warehouses, StatusSeed(statusSeed),
-                        PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
+                        PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
                         Currency(currencyId));
                 }
 
                 return client.ProductProxy.GetProductOnHandByProduct(id, warehouses, StatusSeed(statusSeed),
-                    PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
+                    PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
                     Currency(currencyId));
             }
         }
 
         private ProductOnHand GetProductOnHand(string partNo, WarehouseList warehouses, string statusSeed = Ignored,
-            string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
+            string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored,
             int? currencyId = InvalidId, bool external = false, bool useCache = true)
         {
             using (var client = GetBatch())
@@ -98,24 +98,24 @@ namespace Enferno.Public.Web.Repositories
                 {
                     return client.ProductProxy.GetExternalProductOnHandByPartNo(partNo, warehouses,
                         StatusSeed(statusSeed),
-                        PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
+                        PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
                         Currency(currencyId));
                 }
 
                 return client.ProductProxy.GetProductOnHandByPartNo(partNo, warehouses, StatusSeed(statusSeed),
-                    PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
+                    PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode),
                     Currency(currencyId));
             }
         }
 
-        public Request GetProductRequest(int id, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request GetProductRequest(int id, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             return new GetProductRequest
             {
                 Id = id,
                 StatusSeed = StatusSeed(statusSeed),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 CultureCode = CultureCode(cultureCode),
@@ -123,23 +123,23 @@ namespace Enferno.Public.Web.Repositories
             };
         }
 
-        public Product GetProduct(string uniqueName, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public Product GetProduct(string uniqueName, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.GetProductByUniqueName(uniqueName, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
+                return client.ProductProxy.GetProductByUniqueName(uniqueName, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
             }
         }
 
-        public Request GetProductRequest(string uniqueName, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request GetProductRequest(string uniqueName, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             return new GetProductByUniqueNameRequest
             {
                 UniqueName = uniqueName,
                 StatusSeed = StatusSeed(statusSeed),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 CultureCode = CultureCode(cultureCode),
@@ -147,23 +147,23 @@ namespace Enferno.Public.Web.Repositories
             };
         }
 
-        public Product GetProductByPartNo(string partNo, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public Product GetProductByPartNo(string partNo, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.GetProductByPartNo(partNo, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
+                return client.ProductProxy.GetProductByPartNo(partNo, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), CultureCode(cultureCode), Currency(currencyId));
             }
         }
 
-        public Request GetProductByPartNoRequest(string partNo, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request GetProductByPartNoRequest(string partNo, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             return new GetProductByPartNoRequest
             {
                 PartNo = partNo,
                 StatusSeed = StatusSeed(statusSeed),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 CultureCode = CultureCode(cultureCode),
@@ -243,16 +243,16 @@ namespace Enferno.Public.Web.Repositories
             }
         }
 
-        public FilterList ListProductFilters(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public FilterList ListProductFilters(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.ListProductFilters2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), sort, filter, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
+                return client.ProductProxy.ListProductFilters2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), sort, filter, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
             }
         }
 
-        public Request ListProductFiltersRequest(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request ListProductFiltersRequest(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             return new ListProductFilters2Request
             {
@@ -264,7 +264,7 @@ namespace Enferno.Public.Web.Repositories
                 AssortmentSeed = AssortmentSeed(assortmentSeed),
                 Parametrics = Parametrics(parametrics, cultureCode),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 Sort = sort,
@@ -275,39 +275,39 @@ namespace Enferno.Public.Web.Repositories
             };
         }
 
-        public ProductItemPagedList ListProducts(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public ProductItemPagedList ListProducts(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.ListProducts2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(pageNo), GetNullableInt(pageSize), filter, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
+                return client.ProductProxy.ListProducts2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(pageNo), GetNullableInt(pageSize), filter, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
             }
         }
 
-        public ProductItemPagedList ListProducts(bool asVariants, string idSeed, string statusSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool? returnAllVariants = null, bool useCache = true)
+        public ProductItemPagedList ListProducts(bool asVariants, string idSeed, string statusSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool? returnAllVariants = null, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.ListProductsByIds2(idSeed, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), sort, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString(), GetNullableBool(returnAllVariants));
+                return client.ProductProxy.ListProductsByIds2(idSeed, StatusSeed(statusSeed), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), sort, CultureCode(cultureCode), Currency(currencyId), asVariants.ToString(), GetNullableBool(returnAllVariants));
             }
         }
 
-        public ProductItemPagedList ListPopularProducts(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public ProductItemPagedList ListPopularProducts(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.ListPopularProducts2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
+                return client.ProductProxy.ListPopularProducts2(searchString, categorySeed, manufacturerSeed, flagSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), Parametrics(parametrics, cultureCode), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
             }
         }
 
-        public ProductIdNameList ListProductsLite(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public ProductIdNameList ListProductsLite(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.SearchProductsLite2(searchString, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId));
+                return client.ProductProxy.SearchProductsLite2(searchString, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId));
             }
         }
 
@@ -319,7 +319,7 @@ namespace Enferno.Public.Web.Repositories
             }
         }
 
-        public Request ListProductsRequest(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request ListProductsRequest(bool asVariants, string searchString = null, string categorySeed = null, string manufacturerSeed = null, string flagSeed = null, string statusSeed = Ignored, string assortmentSeed = Ignored, IList<ProductListModel.ListParametric> parametrics = null, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? pageNo = null, int? pageSize = null, string filter = null, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             return new ListProducts2Request
             {
@@ -331,7 +331,7 @@ namespace Enferno.Public.Web.Repositories
                 AssortmentSeed = AssortmentSeed(assortmentSeed),
                 Parametrics = Parametrics(parametrics, cultureCode),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 Sort = sort,
@@ -344,17 +344,17 @@ namespace Enferno.Public.Web.Repositories
             };
         }
 
-        public ProductItemPagedList ListProductAccessories(int productId, bool asVariants, AccessoryType[] accessoryTypes = null, string statusSeed = Ignored, string assortmentSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
+        public ProductItemPagedList ListProductAccessories(int productId, bool asVariants, AccessoryType[] accessoryTypes = null, string statusSeed = Ignored, string assortmentSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string cultureCode = Ignored, int? currencyId = InvalidId, bool useCache = true)
         {
             var accessoryTypeSeed = GetAccessoryTypeSeed(accessoryTypes);
             using (var client = GetBatch())
             {
                 client.UseCache = useCache;
-                return client.ProductProxy.ListProductAccessories3(productId, accessoryTypeSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), DivisionSeed(divisionSeed), PricelistSeed(pricelistSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
+                return client.ProductProxy.ListProductAccessories3(productId, accessoryTypeSeed, StatusSeed(statusSeed), AssortmentSeed(assortmentSeed), DivisionSeed(divisionSeed), PricelistSeed(priceListSeed), Customer(customerId), Company(companyId), sort, GetNullableInt(size), CultureCode(cultureCode), Currency(currencyId), asVariants.ToString());
             }
         }
 
-        public Request ListProductAccessoriesRequest(int productId, bool asVariants, AccessoryType[] accessoryTypes = null, string statusSeed = Ignored, string assortmentSeed = Ignored, string divisionSeed = Ignored, string pricelistSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string cultureCode = Ignored, int? currencyId = InvalidId)
+        public Request ListProductAccessoriesRequest(int productId, bool asVariants, AccessoryType[] accessoryTypes = null, string statusSeed = Ignored, string assortmentSeed = Ignored, string divisionSeed = Ignored, string priceListSeed = Ignored, int? customerId = InvalidId, int? companyId = InvalidId, string sort = null, int? size = null, string cultureCode = Ignored, int? currencyId = InvalidId)
         {
             var accessoryTypeSeed = GetAccessoryTypeSeed(accessoryTypes);
             return new ListProductAccessories3Request
@@ -364,7 +364,7 @@ namespace Enferno.Public.Web.Repositories
                 StatusSeed = StatusSeed(statusSeed),
                 AssortmentSeed = AssortmentSeed(assortmentSeed),
                 StoreSeed = DivisionSeed(divisionSeed),
-                PricelistSeed = PricelistSeed(pricelistSeed),
+                PricelistSeed = PricelistSeed(priceListSeed),
                 CustomerId = Customer(customerId),
                 CompanyId = Company(companyId),
                 Sort = sort,

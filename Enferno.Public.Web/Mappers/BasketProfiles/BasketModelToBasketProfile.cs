@@ -26,6 +26,9 @@ namespace Enferno.Public.Web.Mappers.BasketProfiles
                 .ForMember(basket => basket.TypeId, opts => opts.Ignore())
                 .ForMember(basket => basket.DoHold, opts => opts.Ignore())
                 .ForMember(basket => basket.IsBuyable, opts => opts.Ignore())
+                .ForMember(basket => basket.InvoiceReference, opts => opts.Ignore())
+                .ForMember(basket => basket.PaymentMethodId, opts => opts.Ignore())
+                .ForMember(basket => basket.DeliveryMethodId, opts => opts.Ignore())
 
                 .ForMember(basket => basket.AppliedPromotions, expr => expr.ResolveUsing<PromotionsResolver>())
                 .ForMember(basket => basket.Items, expr => expr.ResolveUsing<BasketItemsResolver>());

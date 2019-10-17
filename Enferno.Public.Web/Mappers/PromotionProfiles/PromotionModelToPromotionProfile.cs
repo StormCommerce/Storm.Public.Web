@@ -16,7 +16,8 @@ namespace Enferno.Public.Web.Mappers.PromotionProfiles
                 .ForMember(to => to.ProductFilters, opts => opts.Ignore())
                 .ForMember(to => to.EffectSeed, opts => opts.Ignore())
                 .ForMember(to => to.FreightDiscountPct, opts => opts.Ignore())
-                .ForMember(to => to.IsStackable, opts => opts.Ignore());
+                .ForMember(to => to.IsStackable, opts => opts.Ignore())
+                .ForMember(to => to.AppliedAmountIncVat, opts => opts.Ignore());
         }
 
         public override string ProfileName => GetType().Name;
